@@ -29,3 +29,17 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+
+# Copy static files to output directory
+STATIC_FILES_DIR = $$PWD/static
+DEST_DIR = $$OUT_PWD/static
+
+# Ensure the destination directory exists
+win32 {
+    QMAKE_POST_LINK += if not exist $$shell_quote($$shell_path($$DEST_DIR)) mkdir $$shell_quote($$shell_path($$DEST_DIR)) &&
+    QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$shell_quote($$shell_path($$STATIC_FILES_DIR)) $$shell_quote($$shell_path($$DEST_DIR))
+} else:unix {
+    QMAKE_POST_LINK += mkdir -p $$shell_quote($$shell_path($$DEST_DIR)) &&
+    QMAKE_POST_LINK += $$QMAKE_COPY_DIR $$shell_quote($$shell_path($$STATIC_FILES_DIR)) $$shell_quote($$shell_path($$DEST_DIR))
+}
