@@ -14,7 +14,7 @@ UseLess::UseLess(QWidget *parent)
 
 //    qDebug() << QDir::currentPath();
     QLabel *label = new QLabel(this);
-    QPixmap pixmap("..//first_project//junLei.png");
+    QPixmap pixmap("static//junLei.png");
     if (pixmap.isNull()) {
         qDebug() << "图片加载失败！";
     }
@@ -34,12 +34,12 @@ UseLess::~UseLess()
 
 void UseLess::on_onceButton_clicked()
 {
-    playGif("..//first_project//kt.gif", 1);
+    playGif("static//kt.gif", 1);
 }
 
 void UseLess::on_tenTimesButton_clicked()
 {
-    playGif("..//first_project//kt.gif", 10);
+    playGif("static//kt.gif", 10);
 }
 
 void UseLess::playGif(const QString &path, int times)

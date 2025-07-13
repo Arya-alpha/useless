@@ -1,0 +1,4 @@
+# qt
+*.pro.user
+*.pro.user.*
+build
