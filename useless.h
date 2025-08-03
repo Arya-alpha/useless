@@ -6,6 +6,9 @@
 #include <QLabel>
 #include <QMovie>
 #include <QPropertyAnimation>
+#include <QFileDialog>
+#include <QStandardPaths>
+#include <QMessageBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class UseLess; }
@@ -22,6 +25,8 @@ public:
 private slots:
     void on_onceButton_clicked();
     void on_tenTimesButton_clicked();
+
+    void on_pushButton_clicked();
 
 private:
     Ui::UseLess *ui;

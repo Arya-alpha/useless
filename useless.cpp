@@ -18,13 +18,11 @@ UseLess::UseLess(QWidget *parent)
     if (pixmap.isNull()) {
         qDebug() << "图片加载失败！";
     }
-
     label->setPixmap(pixmap);
     label->setScaledContents(true);
     label->move(350, 50);
-    label->resize(300, 300);
+    label->resize(200, 200);
     label->show();
-
 }
 
 UseLess::~UseLess()
@@ -76,3 +74,22 @@ void UseLess::playGif(const QString &path, int times)
     movie->start();
 }
 
+
+void UseLess::on_pushButton_clicked()
+{
+    QString filePath = QFileDialog::getOpenFileName(this, tr("选择文件"), "", tr("所有文件 (*.*);;图像文件 (*.png *.jpg *.bmp)"));
+    if (!filePath.isEmpty()) {
+        qDebug()<< "图片上传失败！";
+    }
+
+    QFileInfo fileInfo(filePath);
+    QString fileName = fileInfo.fileName();
+    QString destDir = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    QString savePath = destDir + fileName;
+
+    if (QFile::copy(filePath, savePath)) {
+        QMessageBox::information(this, "上传成功", "文件已保存到: " + savePath);
+    } else {
+        QMessageBox::warning(this, "上传失败", "无法复制文件。");
+    }
+}
