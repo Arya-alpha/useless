@@ -23,6 +23,8 @@ UseLess::UseLess(QWidget *parent)
     label->move(350, 50);
     label->resize(200, 200);
     label->show();
+
+    imageLabel = label;
 }
 
 UseLess::~UseLess()
@@ -78,18 +80,44 @@ void UseLess::playGif(const QString &path, int times)
 void UseLess::on_pushButton_clicked()
 {
     QString filePath = QFileDialog::getOpenFileName(this, tr("选择文件"), "", tr("所有文件 (*.*);;图像文件 (*.png *.jpg *.bmp)"));
-    if (!filePath.isEmpty()) {
-        qDebug()<< "图片上传失败！";
+
+    if (filePath.isEmpty()) {
+        qDebug()<< "用户取消了文件选择";
+        return;
     }
 
     QFileInfo fileInfo(filePath);
     QString fileName = fileInfo.fileName();
-    QString destDir = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
-    QString savePath = destDir + fileName;
 
-    if (QFile::copy(filePath, savePath)) {
-        QMessageBox::information(this, "上传成功", "文件已保存到: " + savePath);
-    } else {
-        QMessageBox::warning(this, "上传失败", "无法复制文件。");
+    QPixmap pixmap(filePath);
+    if (pixmap.isNull()) {
+        qDebug() << "上传的图片加载失败！";
+        return;
     }
+
+    // Create .useless directory in user's home directory
+    QString saveDir = QDir::homePath() + QDir::separator() + ".useless";
+    QDir dir;
+    if (!dir.exists(saveDir)) {
+        dir.mkpath(saveDir);
+    }
+
+    QString savePath = saveDir + QDir::separator() + fileName;
+
+    // Save the image
+    if (!pixmap.save(savePath)) {
+        qDebug() << "图片保存失败！";
+    } else {
+        qDebug() << "图片已保存到：" << savePath;
+    }
+
+    // 设置图片
+    imageLabel->setPixmap(pixmap);
+    imageLabel->setScaledContents(true);
+
+    // if (QFile::copy(filePath, savePath)) {
+    //     QMessageBox::information(this, "上传成功", "文件已保存到: " + savePath);
+    // } else {
+    //     QMessageBox::warning(this, "上传失败", "无法复制文件。");
+    // }
 }

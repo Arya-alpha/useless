@@ -30,6 +30,7 @@ private slots:
 
 private:
     Ui::UseLess *ui;
+    QLabel *imageLabel; // 图片
     void playGif(const QString &path, int times);
 };
 #endif
