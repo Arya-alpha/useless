@@ -23,14 +23,14 @@ public:
     ~UseLess();
 
 private slots:
-    void on_onceButton_clicked();
-    void on_tenTimesButton_clicked();
-
-    void on_pushButton_clicked();
+    void handleOnceButtonClicked();
+    void handleTenTimesButtonClicked();
+    void handlePushButtonClicked();
+    // void on_pushButton_clicked();
 
 private:
     Ui::UseLess *ui;
-    QLabel *imageLabel; // 图片
+    QLabel *imageLabel;
     void playGif(const QString &path, int times);
 };
 #endif
