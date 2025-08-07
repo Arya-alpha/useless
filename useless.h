@@ -26,7 +26,12 @@ private slots:
     void handleOnceButtonClicked();
     void handleTenTimesButtonClicked();
     void handlePushButtonClicked();
+    void handleTopWindowIconTextChanged(const QString &iconText);
     // void on_pushButton_clicked();
+
+    void on_background_customContextMenuRequested(const QPoint &pos);
+
+    void on_top_windowIconTextChanged(const QString &iconText);
 
 private:
     Ui::UseLess *ui;

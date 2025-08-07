@@ -173,3 +173,15 @@ void UseLess::playGif(const QString &path, int times)
 //     //     QMessageBox::warning(this, "上传失败", "无法复制文件。");
 //     // }
 // }
+
+// void UseLess::on_background_customContextMenuRequested(const QPoint &pos)
+// {
+
+// }
+
+
+void UseLess::handleTopWindowIconTextChanged(const QString &iconText)
+{
+
+}
+
