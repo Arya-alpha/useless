@@ -1,14 +1,29 @@
-#include "useless.h"
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
+#include <QQmlContext>
 
-#include <QApplication>
-#include <QLabel>
-#include <QPixmap>
+#include "qml/Pay.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    QGuiApplication app(argc, argv);
 
-    UseLess w;
-    w.show();
-    return a.exec();
+    QQmlApplicationEngine engine;
+
+    Pay pay;
+    engine.rootContext()->setContextProperty("pay", &pay);
+
+    const QUrl url(QStringLiteral("qrc:/useless/main.qml"));
+    QObject::connect(
+        &engine,
+        &QQmlApplicationEngine::objectCreated,
+        &app,
+        [url](QObject *obj, const QUrl &objUrl) {
+            if (!obj && url == objUrl)
+                QCoreApplication::exit(-1);
+        },
+        Qt::QueuedConnection);
+    engine.load(url);
+
+    return app.exec();
 }
