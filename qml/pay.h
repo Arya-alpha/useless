@@ -8,12 +8,15 @@
 class Pay : public QObject
 {
     Q_OBJECT
+
 public:
     Pay(QObject* parent = nullptr);
     ~Pay() = default;
 
-private:
-    QString uploadImage();
+    Q_INVOKABLE QString uploadImage();
+
+// private:
+//     QString uploadImage();
 };
 
 #endif // PAY_H

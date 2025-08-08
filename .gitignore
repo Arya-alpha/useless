@@ -53,6 +53,6 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-# 忽略自定义构建目录（你可以根据你的目录名修改）
+# 忽略自定义构建目录
 build/
 build-*/

@@ -1,8 +1,9 @@
+import QtCore
 import QtQuick
-import QtQuick.Controls 2.15
-import QtQuick.Dialogs 1.3
+import QtQuick.Controls
+import QtQuick.Dialogs
 
-import "qml"
+// import "qml"
 
 Window {
     width: 640
@@ -14,7 +15,14 @@ Window {
         text: "上传文件"
         anchors.centerIn: parent
         onClicked: {
-            pay.uploadImage()
+            fileDialog.open()
         }
+    }
+
+    FileDialog {
+        id: fileDialog
+        currentFolder: StandardPaths.standardLocations(StandardPaths.PicturesLocation)[0]
+        onAccepted: image.source = selectedFile
+        nameFilters: ["所有文件 (*.*)", "图像文件 (*.png *.jpg *.bmp)"]
     }
 }
