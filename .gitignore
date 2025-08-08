@@ -1,0 +1,58 @@
+# 编译输出目录
+build*/
+*.o
+*.obj
+*.so
+*.dll
+*.dylib
+*.a
+*.lib
+*.exe
+*.app
+*.out
+
+# Ninja 构建系统日志文件
+.ninja_log
+.ninja_deps
+
+# Qt Creator 配置文件
+*.autosave
+*.user
+*.user.*
+*.pro.user
+*.pro.user.*
+
+# Qt Creator CMake
+CMakeLists.txt.user
+CMakeLists.txt.user.*
+
+# Qt Creator 生成的配置缓存
+.qmake.stash
+Makefile
+*.moc
+*.rcc
+*.qrc
+*.tmp
+*.prl
+
+# 中间文件 & 编译缓存
+*.bak
+*.log
+*.swp
+*.db
+*.qmlc
+*.jsc
+*.pyc
+__pycache__/
+
+# 忽略 Visual Studio 相关（如用 MSVC 构建）
+*.vcxproj*
+*.sln
+
+# 忽略 macOS/Linux 系统文件
+.DS_Store
+Thumbs.db
+
+# 忽略自定义构建目录（你可以根据你的目录名修改）
+build/
+build-*/
