@@ -19,10 +19,20 @@ Window {
         }
     }
 
+    Image {
+        id: image
+        anchors.fill: parent
+        fillMode: Image.PreserveAspectFit
+    }
+
     FileDialog {
         id: fileDialog
+        title: "选择文件"
         currentFolder: StandardPaths.standardLocations(StandardPaths.PicturesLocation)[0]
-        onAccepted: image.source = selectedFile
+        onAccepted: {
+            image.source = selectedFile
+            pay.saveImagePath(selectedFile)
+        }
         nameFilters: ["所有文件 (*.*)", "图像文件 (*.png *.jpg *.bmp)"]
     }
 }

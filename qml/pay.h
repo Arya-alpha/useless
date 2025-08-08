@@ -13,8 +13,7 @@ public:
     Pay(QObject* parent = nullptr);
     ~Pay() = default;
 
-    Q_INVOKABLE QString uploadImage();
-
+    Q_INVOKABLE void saveImagePath(const QString &sourcePath);
 // private:
 //     QString uploadImage();
 };

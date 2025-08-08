@@ -19,6 +19,8 @@ qt_add_qml_module(appuseless
     QML_FILES
     SOURCES qml/pay.h
     SOURCES qml/pay.cpp
+    SOURCES qml/config.h
+    SOURCES qml/config.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
