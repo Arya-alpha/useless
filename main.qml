@@ -1,15 +1,78 @@
 import QtCore
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 import QtQuick.Dialogs
 
 // import "qml"
 
 Window {
-    width: 640
-    height: 480
+    id: window
+    width: 1280
+    height: 720
     visible: true
-    title: qsTr("Hello World")
+    title: qsTr("功德箱")
+
+    // 左侧菜单
+    Rectangle {
+        id: leftMenu
+        width: 0.1 * window.width
+        height: window.height
+        visible: true
+        color: "#f5f5f5"
+        border.color: "#ddd"
+        border.width: 1
+
+        ColumnLayout {
+            anchors.fill: parent
+            anchors.margins: 20
+            spacing: 20
+
+            Label {
+                id: pay
+                text: "礼佛"
+                font.bold: true
+                font.pixelSize: 20
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                horizontalAlignment: Label.AlignHCenter
+                verticalAlignment: Label.AlignVCenter
+            }
+
+            Label {
+                id: pray
+                text: "祈福"
+                font.bold: true
+                font.pixelSize: 20
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                horizontalAlignment: Label.AlignHCenter
+                verticalAlignment: Label.AlignVCenter
+            }
+
+            Label {
+                id: light
+                text: "点灯"
+                font.bold: true
+                font.pixelSize: 20
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                horizontalAlignment: Label.AlignHCenter
+                verticalAlignment: Label.AlignVCenter
+            }
+
+            Label {
+                id: donate
+                text: "捐赠"
+                font.bold: true
+                font.pixelSize: 20
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                horizontalAlignment: Label.AlignHCenter
+                verticalAlignment: Label.AlignVCenter
+            }
+        }
+    }
 
     Button {
         text: "上传文件"
@@ -35,4 +98,60 @@ Window {
         }
         nameFilters: ["所有文件 (*.*)", "图像文件 (*.png *.jpg *.bmp)"]
     }
+
+    // component Tomato: Label {
+    //     id: tomato
+    //     objectName: text
+    //     horizontalAlignment: Label.AlignHCenter
+    //     verticalAlignment: Label.AlignVCenter
+    //     width: Math.max(200, contentWidth * 1.5, contentWidth * 1.5)
+    //     height: width
+    //     color: skinColor
+
+    //     function eat() { print("Ate " + text) }
+    //     function ditch() { print("Threw " + text) }
+    //     function squash() { print("Squashed " + text) }
+
+    //     property color skinColor: "tomato"
+
+    //     background: Rectangle {
+    //         color: tomato.skinColor
+    //         radius: width / 2
+    //     }
+
+    //     ContextMenu.menu: contextMenu
+    // }
+
+    // Menu {
+    //     id: contextMenu
+
+    //     readonly property Tomato triggerItem: parent as Tomato
+    //     readonly property string triggerItemText: triggerItem?.text ?? ""
+
+    //     MenuItem {
+    //         text: qsTr("Eat %1").arg(contextMenu.triggerItemText)
+    //         onTriggered: contextMenu.triggerItem.eat()
+    //     }
+    //     MenuItem {
+    //         text: qsTr("Throw %1").arg(contextMenu.triggerItemText)
+    //         onTriggered: contextMenu.triggerItem.ditch()
+    //     }
+    //     MenuItem {
+    //         text: qsTr("Squash %1").arg(contextMenu.triggerItemText)
+    //         onTriggered: contextMenu.triggerItem.squash()
+    //     }
+    // }
+
+    // Row {
+    //     anchors.centerIn: parent
+
+    //     Tomato {
+    //         text: qsTr("tomato")
+    //     }
+
+    //     Tomato {
+    //         text: qsTr("really ripe tomato")
+    //         skinColor: "maroon"
+    //     }
+    // }
 }

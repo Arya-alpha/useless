@@ -6,13 +6,13 @@ Config::Config(QObject *parent)
     settings = new QSettings("config.ini", QSettings::IniFormat);
 }
 
-void setCustomPath(const QString &sourcePath)
+void Config::setCustomPath(const QString &sourcePath)
 {
     QSettings settings;
     settings.setValue("image/imagePath", sourcePath);
 }
 
-QString getCustomPath()
+QString Config::getCustomPath()
 {
     QSettings settings;
     return settings.value("image/sourcePath").toString();
