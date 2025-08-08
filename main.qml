@@ -4,8 +4,6 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Dialogs
 
-// import "qml"
-
 Window {
     id: window
     width: 1280
@@ -37,6 +35,35 @@ Window {
                 Layout.fillHeight: true
                 horizontalAlignment: Label.AlignHCenter
                 verticalAlignment: Label.AlignVCenter
+                
+                background: Rectangle {
+                    id: payBackground
+                    width: parent.width
+                    height: 0.3 * parent.height
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    radius: 8
+
+                    property bool mouseHover: false
+                    color: mouseHover ? "#e0e0e0" : "transparent"
+                }
+                
+                MouseArea {
+                    id: payMouseArea
+                    width: parent.width
+                    height: 0.3 * parent.height
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    // 开启悬停监听
+                    hoverEnabled: true
+                    onEntered: payBackground.mouseHover = true
+                    onExited: payBackground.mouseHover = false
+
+                    onClicked: {
+                        console.log("click pay")
+                    }
+                }
             }
 
             Label {
@@ -48,6 +75,35 @@ Window {
                 Layout.fillHeight: true
                 horizontalAlignment: Label.AlignHCenter
                 verticalAlignment: Label.AlignVCenter
+                
+                background: Rectangle {
+                    id: prayBackground
+                    width: parent.width
+                    height: 0.3 * parent.height
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    radius: 8
+
+                    property bool mouseHover: false
+                    color: mouseHover ? "#e0e0e0" : "transparent"
+                }
+                
+                MouseArea {
+                    id: prayMouseArea
+                    width: parent.width
+                    height: 0.3 * parent.height
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    // 开启悬停监听
+                    hoverEnabled: true
+                    onEntered: prayBackground.mouseHover = true
+                    onExited: prayBackground.mouseHover = false
+
+                    onClicked: {
+                        console.log("click pray")
+                    }
+                }
             }
 
             Label {
@@ -59,6 +115,35 @@ Window {
                 Layout.fillHeight: true
                 horizontalAlignment: Label.AlignHCenter
                 verticalAlignment: Label.AlignVCenter
+                
+                background: Rectangle {
+                    id: lightBackground
+                    width: parent.width
+                    height: 0.3 * parent.height
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    radius: 8
+
+                    property bool mouseHover: false
+                    color: mouseHover ? "#e0e0e0" : "transparent"
+                }
+
+                MouseArea {
+                    id: lightMouseArea
+                    width: parent.width
+                    height: 0.3 * parent.height
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    // 开启悬停监听
+                    hoverEnabled: true
+                    onEntered: lightBackground.mouseHover = true
+                    onExited: lightBackground.mouseHover = false
+
+                    onClicked: {
+                        console.log("click light")
+                    }
+                }
             }
 
             Label {
@@ -70,6 +155,35 @@ Window {
                 Layout.fillHeight: true
                 horizontalAlignment: Label.AlignHCenter
                 verticalAlignment: Label.AlignVCenter
+                
+                background: Rectangle {
+                    id: donateBackground
+                    width: parent.width
+                    height: 0.3 * parent.height
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    radius: 8
+
+                    property bool mouseHover: false
+                    color: mouseHover ? "#e0e0e0" : "transparent"
+                }
+
+                MouseArea {
+                    id: donateMouseArea
+                    width: parent.width
+                    height: 0.3 * parent.height
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    // 开启悬停监听
+                    hoverEnabled: true
+                    onEntered: donateBackground.mouseHover = true
+                    onExited: donateBackground.mouseHover = false
+
+                    onClicked: {
+                        console.log("click donate")
+                    }
+                }
             }
         }
     }
