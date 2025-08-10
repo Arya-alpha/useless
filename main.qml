@@ -11,6 +11,9 @@ Window {
     visible: true
     title: qsTr("功德箱")
 
+    // 主界面切换系统
+    property int currentPage: 0 // 0: 礼佛, 1: 祈福, 2: 点灯, 3: 捐赠
+
     // 左侧菜单
     Rectangle {
         id: leftMenu
@@ -45,7 +48,8 @@ Window {
                     radius: 8
 
                     property bool mouseHover: false
-                    color: mouseHover ? "#e0e0e0" : "transparent"
+                    property bool isActive: currentPage === 0
+                    color: isActive ? "#4CAF50" : (mouseHover ? "#e0e0e0" : "transparent")
                 }
                 
                 MouseArea {
@@ -62,6 +66,8 @@ Window {
 
                     onClicked: {
                         console.log("click pay")
+                        currentPage = 0
+                        mainStackView.replace(payPage)
                     }
                 }
             }
@@ -85,7 +91,8 @@ Window {
                     radius: 8
 
                     property bool mouseHover: false
-                    color: mouseHover ? "#e0e0e0" : "transparent"
+                    property bool isActive: currentPage === 1
+                    color: isActive ? "#4CAF50" : (mouseHover ? "#e0e0e0" : "transparent")
                 }
                 
                 MouseArea {
@@ -102,6 +109,8 @@ Window {
 
                     onClicked: {
                         console.log("click pray")
+                        currentPage = 1
+                        mainStackView.replace(prayPage)
                     }
                 }
             }
@@ -125,7 +134,8 @@ Window {
                     radius: 8
 
                     property bool mouseHover: false
-                    color: mouseHover ? "#e0e0e0" : "transparent"
+                    property bool isActive: currentPage === 2
+                    color: isActive ? "#4CAF50" : (mouseHover ? "#e0e0e0" : "transparent")
                 }
 
                 MouseArea {
@@ -142,6 +152,8 @@ Window {
 
                     onClicked: {
                         console.log("click light")
+                        currentPage = 2
+                        mainStackView.replace(lightPage)
                     }
                 }
             }
@@ -165,7 +177,8 @@ Window {
                     radius: 8
 
                     property bool mouseHover: false
-                    color: mouseHover ? "#e0e0e0" : "transparent"
+                    property bool isActive: currentPage === 3
+                    color: isActive ? "#4CAF50" : (mouseHover ? "#e0e0e0" : "transparent")
                 }
 
                 MouseArea {
@@ -182,15 +195,255 @@ Window {
 
                     onClicked: {
                         console.log("click donate")
+                        currentPage = 3
+                        mainStackView.replace(donatePage)
                     }
                 }
             }
         }
     }
 
+    // 主内容区域
+    Rectangle {
+        id: mainContent
+        anchors.left: leftMenu.right
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        color: "#ffffff"
+
+        StackView {
+            id: mainStackView
+            anchors.fill: parent
+            initialItem: payPage
+        }
+    }
+
+    // 礼佛页面
+    Component {
+        id: payPage
+        Rectangle {
+            color: "#fafafa"
+            
+            ColumnLayout {
+                anchors.centerIn: parent
+                spacing: 20
+                
+                Image {
+                    source: "qrc:/images/buddha.png" // 如果有图片资源的话
+                    width: 200
+                    height: 200
+                    fillMode: Image.PreserveAspectFit
+                }
+                
+                Label {
+                    text: "礼佛"
+                    font.pixelSize: 32
+                    font.bold: true
+                    color: "#333"
+                }
+                
+                Label {
+                    text: "虔诚礼佛，功德无量"
+                    font.pixelSize: 18
+                    color: "#666"
+                }
+                
+                Button {
+                    text: "开始礼佛"
+                    font.pixelSize: 16
+                    onClicked: {
+                        console.log("开始礼佛仪式")
+                    }
+                }
+            }
+        }
+    }
+
+    // 祈福页面
+    Component {
+        id: prayPage
+        Rectangle {
+            color: "#fafafa"
+            
+            ColumnLayout {
+                anchors.centerIn: parent
+                spacing: 20
+                
+                Image {
+                    source: "qrc:/images/pray.png" // 如果有图片资源的话
+                    width: 200
+                    height: 200
+                    fillMode: Image.PreserveAspectFit
+                }
+                
+                Label {
+                    text: "祈福"
+                    font.pixelSize: 32
+                    font.bold: true
+                    color: "#333"
+                }
+                
+                Label {
+                    text: "心诚则灵，祈福平安"
+                    font.pixelSize: 18
+                    color: "#666"
+                }
+                
+                TextArea {
+                    placeholderText: "请输入您的祈福愿望..."
+                    width: 300
+                    height: 100
+                    font.pixelSize: 14
+                }
+                
+                Button {
+                    text: "提交祈福"
+                    font.pixelSize: 16
+                    onClicked: {
+                        console.log("提交祈福愿望")
+                    }
+                }
+            }
+        }
+    }
+
+    // 点灯页面
+    Component {
+        id: lightPage
+        Rectangle {
+            color: "#fafafa"
+            
+            ColumnLayout {
+                anchors.centerIn: parent
+                spacing: 20
+                
+                Image {
+                    source: "qrc:/images/candle.png" // 如果有图片资源的话
+                    width: 200
+                    height: 200
+                    fillMode: Image.PreserveAspectFit
+                }
+                
+                Label {
+                    text: "点灯"
+                    font.pixelSize: 32
+                    font.bold: true
+                    color: "#333"
+                }
+                
+                Label {
+                    text: "点亮心灯，照亮前程"
+                    font.pixelSize: 18
+                    color: "#666"
+                }
+                
+                Row {
+                    spacing: 20
+                    
+                    Button {
+                        text: "点一盏灯"
+                        font.pixelSize: 16
+                        onClicked: {
+                            console.log("点一盏灯")
+                        }
+                    }
+                    
+                    Button {
+                        text: "点三盏灯"
+                        font.pixelSize: 16
+                        onClicked: {
+                            console.log("点三盏灯")
+                        }
+                    }
+                    
+                    Button {
+                        text: "点七盏灯"
+                        font.pixelSize: 16
+                        onClicked: {
+                            console.log("点七盏灯")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // 捐赠页面
+    Component {
+        id: donatePage
+        Rectangle {
+            color: "#fafafa"
+            
+            ColumnLayout {
+                anchors.centerIn: parent
+                spacing: 20
+                
+                Image {
+                    source: "qrc:/images/donate.png" // 如果有图片资源的话
+                    width: 200
+                    height: 200
+                    fillMode: Image.PreserveAspectFit
+                }
+                
+                Label {
+                    text: "捐赠"
+                    font.pixelSize: 32
+                    font.bold: true
+                    color: "#333"
+                }
+                
+                Label {
+                    text: "随喜功德，广种福田"
+                    font.pixelSize: 18
+                    color: "#666"
+                }
+                
+                Row {
+                    spacing: 20
+                    
+                    Button {
+                        text: "¥10"
+                        font.pixelSize: 16
+                        onClicked: {
+                            console.log("捐赠10元")
+                        }
+                    }
+                    
+                    Button {
+                        text: "¥50"
+                        font.pixelSize: 16
+                        onClicked: {
+                            console.log("捐赠50元")
+                        }
+                    }
+                    
+                    Button {
+                        text: "¥100"
+                        font.pixelSize: 16
+                        onClicked: {
+                            console.log("捐赠100元")
+                        }
+                    }
+                    
+                    Button {
+                        text: "自定义金额"
+                        font.pixelSize: 16
+                        onClicked: {
+                            console.log("自定义捐赠金额")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // 文件上传功能保留
     Button {
         text: "上传文件"
-        anchors.centerIn: parent
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        anchors.margins: 20
         onClicked: {
             fileDialog.open()
         }
@@ -200,6 +453,7 @@ Window {
         id: image
         anchors.fill: parent
         fillMode: Image.PreserveAspectFit
+        visible: false // 默认隐藏，只在需要时显示
     }
 
     FileDialog {
@@ -208,7 +462,7 @@ Window {
         currentFolder: StandardPaths.standardLocations(StandardPaths.PicturesLocation)[0]
         onAccepted: {
             image.source = selectedFile
-            pay.saveImagePath(selectedFile)
+            // pay.saveImagePath(selectedFile) // 注释掉，因为pay不是组件
         }
         nameFilters: ["所有文件 (*.*)", "图像文件 (*.png *.jpg *.bmp)"]
     }
