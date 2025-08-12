@@ -33,12 +33,13 @@ Window {
                     required property string name
                     required property string page
                     required property int index
-                    width: leftBox.width
+                    width: leftBox.width - 20
                     height: 40
                     // isActive ? "#4CAF50" : (mouseHover ? "#e0e0e0" : "transparent")
                     property bool mouseHover: false
                     property bool isActive: window.currentPage === 0
                     color: ListView.isCurrentItem ? "#4CAF50" : (mouseHover ? "#e0e0e0" : "transparent")
+                    radius: 8
                     Text {
                         anchors.centerIn: parent
                         text: menuItem.name
@@ -48,6 +49,7 @@ Window {
                     }
                     MouseArea {
                         anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
                         onClicked: {
                             contentLoader.source = menuItem.page
                             menuList.currentIndex = index
@@ -61,6 +63,7 @@ Window {
                 anchors.fill: parent
                 anchors.margins: 10
                 spacing: 5
+                highlightMoveDuration: 0
                 model: ListModel {
                     ListElement {
                         name: "礼佛"
