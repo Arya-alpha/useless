@@ -28,77 +28,65 @@ Window {
 
             Component {
                 id: contactDelegate
-                Item {
+                Rectangle {
                     id: menuItem
                     required property string name
-                    width: 180; height: 40
-                    Column {
-                        Text { text: menuItem.name }
+                    required property string page
+                    required property int index
+                    width: leftBox.width
+                    height: 40
+                    // isActive ? "#4CAF50" : (mouseHover ? "#e0e0e0" : "transparent")
+                    property bool mouseHover: false
+                    property bool isActive: window.currentPage === 0
+                    color: ListView.isCurrentItem ? "#4CAF50" : (mouseHover ? "#e0e0e0" : "transparent")
+                    Text {
+                        anchors.centerIn: parent
+                        text: menuItem.name
+                        font.pixelSize: 16
+                        font.bold: true
+                        color: ListView.isCurrentItem ? "white" : "#333"
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            contentLoader.source = menuItem.page
+                            menuList.currentIndex = index
+                        }
                     }
                 }
             }
 
             ListView {
-                id: leftMenu
+                id: menuList
                 anchors.fill: parent
-                // Layout.preferredWidth: 0.1 * window.width
-                // Layout.fillHeight: true
+                anchors.margins: 10
+                spacing: 5
                 model: ListModel {
                     ListElement {
-                        name: "礼佛";
+                        name: "礼佛"
                         page: "qml/Pay.qml"
                     }
                     ListElement {
-                        name: "Pray";
+                        name: "祈福"
                         page: "qml/Pray.qml"
                     }
                     ListElement {
-                        name: "Light";
+                        name: "点灯"
                         page: "qml/Light.qml"
                     }
                     ListElement {
-                        name: "Donate";
+                        name: "捐赠"
                         page: "qml/Donate.qml"
                     }
                 }
-
                 delegate: contactDelegate
-
                 highlight: Rectangle {
-                    color: "lightsteelblue"; radius: 5
+                    color: "lightsteelblue"
+                    radius: 5
                 }
-
                 focus: true
-                // delegate: Text {
-                //     required property string name
-                //     // required property string page
-                //     text: name
-                // }
-
-
-                // delegate: Rectangle {
-                //     width: leftMenu.width
-                //     height: 50
-                //     color: ListView.isCurrentItem ? "#aaa" : "#ccc"
-
-                //     Text {
-                //         anchors.centerIn: parent
-                //         text: name
-                //     }
-
-                //     MouseArea {
-                //         anchors.fill: parent
-                //         onClicked: {
-                //             contentLoader.source = page
-                //             menuList.currentIndex = index
-                //         }
-                //     }
-                // }
             }
         }
-
-        // 左侧菜单
-
 
         Loader {
             id: contentLoader
@@ -108,6 +96,8 @@ Window {
         }
     }
 }
+                // Layout.preferredWidth: 0.1 * window.width
+                // Layout.fillHeight: true
             // width: 0.1 * window.width
             // height: window.height
             // visible: true
