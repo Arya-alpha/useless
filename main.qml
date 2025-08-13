@@ -11,8 +11,6 @@ Window {
     visible: true
     title: qsTr("功德箱")
 
-    property int currentPage: 0
-
     RowLayout {
         anchors.fill: parent
         spacing: 0
@@ -33,23 +31,25 @@ Window {
                     required property string name
                     required property string page
                     required property int index
-                    width: leftBox.width - 20
-                    height: 40
-                    // isActive ? "#4CAF50" : (mouseHover ? "#e0e0e0" : "transparent")
                     property bool mouseHover: false
-                    property bool isActive: window.currentPage === 0
-                    color: ListView.isCurrentItem ? "#4CAF50" : (mouseHover ? "#e0e0e0" : "transparent")
+                    width: leftBox.width - menuList.anchors.margins * 2
+                    height: (leftBox.height - menuList.anchors.margins * 2 - menuList.spacing * (menuList.count - 1)) / menuList.count
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    color: ListView.isCurrentItem ? "#4CAF50" : (mouseHover ? "#8d8585" : "transparent")
                     radius: 8
                     Text {
                         anchors.centerIn: parent
                         text: menuItem.name
                         font.pixelSize: 16
                         font.bold: true
-                        color: ListView.isCurrentItem ? "white" : "#333"
+                        // color: ListView.isCurrentItem ? "white" : "#333"
                     }
                     MouseArea {
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
+                        hoverEnabled: true
+                        onEntered: menuItem.mouseHover = true
+                        onExited: menuItem.mouseHover = false
                         onClicked: {
                             contentLoader.source = menuItem.page
                             menuList.currentIndex = index
