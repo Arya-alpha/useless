@@ -17,8 +17,10 @@ Window {
 
         Rectangle {
             id: leftBox
-            width: 0.1 * window.width
-            height: window.height
+            // width: 0.1 * window.width
+            // height: window.height
+            Layout.preferredWidth: window.width * 0.1
+            Layout.fillHeight: true
             visible: true
             color: "#f5f5f5"
             border.color: "#ddd"
