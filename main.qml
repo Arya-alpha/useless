@@ -65,7 +65,6 @@ Window {
                 anchors.fill: parent
                 anchors.margins: 10
                 spacing: 5
-                highlightMoveDuration: 0
                 model: ListModel {
                     ListElement {
                         name: "礼佛"
@@ -85,10 +84,11 @@ Window {
                     }
                 }
                 delegate: contactDelegate
-                highlight: Rectangle {
-                    color: "lightsteelblue"
-                    radius: 5
-                }
+                // highlightMoveDuration: 0
+                // highlight: Rectangle {
+                //     color: "lightsteelblue"
+                //     radius: 5
+                // }
                 focus: true
             }
         }
