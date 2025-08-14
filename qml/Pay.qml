@@ -7,14 +7,16 @@ Rectangle {
     anchors.fill: parent
 
     Image {
-        source: "qrc:/images/buddha.png" // 如果有图片资源的话
-        width: 200
-        height: 200
+        id: image
+        width: 0.66 * 0.8 * parent.height
+        height: 0.8 * parent.height
+        source: "qrc:/Image/resources/1.png"
         fillMode: Image.PreserveAspectFit
+        visible: true
     }
 
     Label {
-        anchors.centerIn: parent
+        anchors.horizontalCenter: parent.horizontalCenter
         text: "礼佛"
         font.pixelSize: 32
         font.bold: true
@@ -44,13 +46,6 @@ Rectangle {
         onClicked: {
             fileDialog.open()
         }
-    }
-
-    Image {
-        id: image
-        anchors.fill: parent
-        fillMode: Image.PreserveAspectFit
-        visible: false // 默认隐藏，只在需要时显示
     }
 
     FileDialog {

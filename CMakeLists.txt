@@ -4,6 +4,7 @@ project(useless VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 6.2 COMPONENTS Quick REQUIRED)
 
@@ -11,20 +12,35 @@ qt_add_executable(appuseless
     main.cpp
 )
 
+# set(RESOURCE_FILES
+#     resources/阿弥陀佛.png
+#     resources/释迦牟尼佛.png
+#     resources/观世音菩萨.png
+#     resources/药师琉璃光如来.png
+#     resources/毗卢遮那佛.png
+#     resources/文殊师利菩萨.png
+#     resources/弥勒佛.png
+#     resources/卢舍那佛.png
+#     resources/1.png
+# )
+
 qt_add_qml_module(appuseless
+    RESOURCE_PREFIX "/"
     URI useless
     VERSION 1.0
-    QML_FILES main.qml
     QML_FILES
-    QML_FILES
-    SOURCES qml/pay.h
-    SOURCES qml/pay.cpp
-    SOURCES qml/config.h
-    SOURCES qml/config.cpp
-    QML_FILES qml/Pay.qml
-    QML_FILES qml/Pray.qml
-    QML_FILES qml/Light.qml
-    QML_FILES qml/Donate.qml
+        main.qml
+        qml/Pay.qml
+        qml/Pray.qml
+        qml/Light.qml
+        qml/Donate.qml
+    SOURCES
+        qml/pay.h
+        qml/pay.cpp
+        qml/config.h
+        qml/config.cpp
+    RESOURCES
+        uselessui.qrc
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
