@@ -31,7 +31,7 @@ CMakeLists.txt.user.*
 Makefile
 *.moc
 *.rcc
-*.qrc
+# *.qrc
 *.tmp
 *.prl
 
