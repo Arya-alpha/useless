@@ -10,7 +10,7 @@ Rectangle {
         id: image
         width: 0.66 * 0.8 * parent.height
         height: 0.8 * parent.height
-        source: "qrc:/Image/resources/1.png"
+        source: "qrc:/Resources/resources/Image/Buddha/default.png"
         fillMode: Image.PreserveAspectFit
         visible: true
     }

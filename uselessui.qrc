@@ -1,13 +1,16 @@
 <RCC>
-    <qresource prefix="/Image">
-        <file>resources/1.png</file>
-        <file>resources/阿弥陀佛.png</file>
-        <file>resources/观世音菩萨.png</file>
-        <file>resources/卢舍那佛.png</file>
-        <file>resources/弥勒佛.png</file>
-        <file>resources/毗卢遮那佛.png</file>
-        <file>resources/释迦牟尼佛.png</file>
-        <file>resources/文殊师利菩萨.png</file>
-        <file>resources/药师琉璃光如来.png</file>
+    <qresource prefix="/Resources">
+        <file>resources/Image/Buddha/default.png</file>
+        <file>resources/Image/Buddha/阿弥陀佛.png</file>
+        <file>resources/Image/Buddha/卢舍那佛.png</file>
+        <file>resources/Image/Buddha/弥勒佛.png</file>
+        <file>resources/Image/Buddha/毗卢遮那佛.png</file>
+        <file>resources/Image/Buddha/释迦牟尼佛.png</file>
+        <file>resources/Image/Buddha/药师琉璃光如来.png</file>
+        <file>resources/Image/Bodhisattva/大势至菩萨.png</file>
+        <file>resources/Image/Bodhisattva/观世音菩萨.png</file>
+        <file>resources/Image/Bodhisattva/普贤菩萨.png</file>
+        <file>resources/Image/Bodhisattva/文殊师利菩萨.png</file>
+        <file>resources/Image/Bodhisattva/文殊师利菩萨1.png</file>
     </qresource>
 </RCC>
