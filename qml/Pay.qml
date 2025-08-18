@@ -12,79 +12,86 @@ Rectangle {
         width: 0.6 * parent.width
         height: parent.height
         anchors.horizontalCenter: parent.horizontalCenter
-        spacing: 10
+        spacing: 20
 
         Label {
             text: "虔诚礼佛，功德无量"
-            font.pixelSize: 18
+            font.pixelSize: Math.max(16, parent.width * 0.02)
             color: "#666"
+            Layout.alignment: Qt.AlignHCenter
+            Layout.topMargin: parent.height * 0.05
         }
 
         Image {
             id: image
-            width: 0.66 * 0.8 * payColumn.width
-            height: 0.8 * payColumn.height
+            Layout.alignment: Qt.AlignHCenter
+            Layout.preferredWidth: Math.min(0.5 * payColumn.width, 0.6 * payColumn.height)
+            Layout.preferredHeight: Layout.preferredWidth * 1.2
             source: "qrc:/Resources/resources/Image/Buddha/default.png"
             fillMode: Image.PreserveAspectFit
             visible: true
         }
-    }
 
-    // Label {
-    //     anchors.horizontalCenter: parent.horizontalCenter
-    //     text: "礼佛"
-    //     font.pixelSize: 32
-    //     font.bold: true
-    //     color: "#333"
-    // }
+        Label {
+            id: payTimeLabel
+            text: "礼佛计时 00:00"
+            font.pixelSize: Math.max(16, parent.width * 0.018)
+            color: "#666"
+            Layout.alignment: Qt.AlignHCenter
+            Layout.topMargin: parent.height * 0.03
+        }
 
-    // Label {
-    //     text: "虔诚礼佛，功德无量"
-    //     font.pixelSize: 18
-    //     color: "#666"
-    // }
+        RowLayout {
+            Layout.alignment: Qt.AlignHCenter
+            Layout.topMargin: parent.height * 0.04
+            spacing: 20
 
-    Label {
-        id: payTimeLabel
-        text: "礼佛计时 00:00"
-        font.pixelSize: 18
-        color: "#666"
-        anchors.centerIn: parent
-        anchors.verticalCenterOffset: 50
-    }
+            Button {
+                id: payButton
+                text: "开始礼佛"
+                font.pixelSize: Math.max(14, parent.width * 0.015)
+                Layout.preferredWidth: Math.max(100, parent.width * 0.12)
+                Layout.preferredHeight: Math.max(40, parent.height * 0.06)
+                onClicked: {
+                    if (payTime.running) {
+                        // 停止计时
+                        payTime.stop()
+                        payButton.text = "开始礼佛"
+                        payButton.color = "#4CAF50" // 绿色
+                    } else {
+                        // 开始计时
+                        payTime.start()
+                        payButton.text = "结束礼佛"
+                        payButton.color = "#f44336" // 红色
+                    }
+                }
+            }
 
-    Button {
-        id: payButton
-        text: "开始礼佛"
-        font.pixelSize: 16
-        anchors.centerIn: parent.right
-        anchors.verticalCenterOffset: 100
-        onClicked: {
-            if (payTime.running) {
-                // 停止计时
-                payTime.stop()
-                payButton.text = "开始礼佛"
-                payButton.color = "#4CAF50" // 绿色
-            } else {
-                // 开始计时
-                payTime.start()
-                payButton.text = "结束礼佛"
-                payButton.color = "#f44336" // 红色
+            Button {
+                id: resetButton
+                text: "重置计时"
+                font.pixelSize: Math.max(12, parent.width * 0.013)
+                Layout.preferredWidth: Math.max(80, parent.width * 0.1)
+                Layout.preferredHeight: Math.max(40, parent.height * 0.06)
+                onClicked: {
+                    payTime.stop()
+                    payButton.text = "开始礼佛"
+                    payButton.color = "#4CAF50"
+                    payTimeLabel.text = "礼佛计时 00:00"
+                }
             }
         }
-    }
 
-    Button {
-        id: resetButton
-        text: "重置计时"
-        font.pixelSize: 14
-        anchors.centerIn: parent
-        anchors.verticalCenterOffset: 150
-        onClicked: {
-            payTime.stop()
-            payButton.text = "开始礼佛"
-            payButton.color = "#4CAF50"
-            myLabel.text = "礼佛计时：00:00"
+        Button {
+            text: "上传文件"
+            font.pixelSize: Math.max(12, parent.width * 0.012)
+            Layout.alignment: Qt.AlignHCenter
+            Layout.topMargin: parent.height * 0.05
+            Layout.preferredWidth: Math.max(100, parent.width * 0.12)
+            Layout.preferredHeight: Math.max(35, parent.height * 0.05)
+            onClicked: {
+                fileDialog.open()
+            }
         }
     }
 
@@ -94,8 +101,8 @@ Rectangle {
         running: false
         repeat: true
         onTriggered: {
-            var currentText = myLabel.text;
-            var timeStr = currentText.split("：")[1];
+            var currentText = payTimeLabel.text;
+            var timeStr = currentText.split(" ")[1];
             var parts = timeStr.split(":");
             var minutes = parseInt(parts[0]);
             var seconds = parseInt(parts[1]);
@@ -107,18 +114,7 @@ Rectangle {
             }
             
             var newTimeStr = (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
-            myLabel.text = "礼佛计时：" + newTimeStr;
-        }
-    }
-
-    // 文件上传功能保留
-    Button {
-        text: "上传文件"
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-        anchors.margins: 20
-        onClicked: {
-            fileDialog.open();
+            payTimeLabel.text = "礼佛计时 " + newTimeStr;
         }
     }
 
@@ -128,7 +124,6 @@ Rectangle {
         currentFolder: StandardPaths.standardLocations(StandardPaths.PicturesLocation)[0]
         onAccepted: {
             image.source = selectedFile;
-            // pay.saveImagePath(selectedFile) // 注释掉，因为pay不是组件
         }
         nameFilters: ["所有文件 (*.*)", "图像文件 (*.png *.jpg *.bmp)"]
     }
