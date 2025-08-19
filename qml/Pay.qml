@@ -52,12 +52,18 @@ Rectangle {
                 font.pixelSize: Math.max(14, parent.width * 0.015)
                 Layout.preferredWidth: Math.max(100, parent.width * 0.12)
                 Layout.preferredHeight: Math.max(40, parent.height * 0.06)
-                hoverEnabled: true
+                hoverEnabled: false
                 background: Rectangle {
                     id: payButtonBg
                     border.width: 0
-                    radius: payButton.hovered ? 12 : 8
-                    color: payButton.hovered ? "#7fe482" : "#66BB6A"
+                    // radius: 12
+                    radius: pbhh.hovered ? 12 : 8
+                    color: pbhh.hovered ? "#7fe482" : "#66BB6A"
+                }
+
+                HoverHandler {
+                    id: pbhh
+                    cursorShape: Qt.PointingHandCursor
                 }
 
                 onClicked: {
@@ -79,6 +85,49 @@ Rectangle {
                 font.pixelSize: Math.max(14, parent.width * 0.015)
                 Layout.preferredWidth: Math.max(100, parent.width * 0.12)
                 Layout.preferredHeight: Math.max(40, parent.height * 0.06)
+                onClicked: {
+                    payTime.stop();
+                    payButton.text = "开始礼佛";
+                    payButton.color = "#4CAF50";
+                    payTimeLabel.text = "礼佛计时 00:00";
+                }
+            }
+
+            Button {
+                id: resetButton1
+                text: "重置计时"
+
+                hoverEnabled: false
+
+                font.pixelSize: Math.max(14, parent.width * 0.015)
+                Layout.preferredWidth: Math.max(100, parent.width * 0.12)
+                Layout.preferredHeight: Math.max(40, parent.height * 0.06)
+
+                background: Rectangle {
+                    id: bg
+                    radius: hh.hovered ? 20 : 12
+                    color: hh.hovered ? "#FF8A65" : "#FF7043"
+                    border.color: hh.hovered ? "#BF360C" : "#D84315"
+                    border.width: 1
+
+                    Behavior on color  { ColorAnimation { duration: 140 } }
+                    Behavior on radius { NumberAnimation { duration: 140 } }
+                }
+
+                contentItem: Text {
+                    text: resetButton.text
+                    font.pixelSize: resetButton.font.pixelSize
+                    color: "white"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
+                }
+
+                HoverHandler {
+                    id: hh
+                    cursorShape: Qt.PointingHandCursor
+                }
+
                 onClicked: {
                     payTime.stop();
                     payButton.text = "开始礼佛";
