@@ -52,17 +52,23 @@ Rectangle {
                 font.pixelSize: Math.max(14, parent.width * 0.015)
                 Layout.preferredWidth: Math.max(100, parent.width * 0.12)
                 Layout.preferredHeight: Math.max(40, parent.height * 0.06)
+                hoverEnabled: true
+                background: Rectangle {
+                    id: payButtonBg
+                    border.width: 0
+                    radius: payButton.hovered ? 12 : 8
+                    color: payButton.hovered ? "#7fe482" : "#66BB6A"
+                }
+
                 onClicked: {
                     if (payTime.running) {
-                        // 停止计时
-                        payTime.stop()
+                        payTime.stop();
                         payButton.text = "开始礼佛"
-                        payButton.color = "#4CAF50" // 绿色
+                        payButtonBg.color = "#4CAF50"
                     } else {
-                        // 开始计时
-                        payTime.start()
+                        payTime.start();
                         payButton.text = "结束礼佛"
-                        payButton.color = "#f44336" // 红色
+                        payButtonBg.color = "#f44336"
                     }
                 }
             }
@@ -70,14 +76,14 @@ Rectangle {
             Button {
                 id: resetButton
                 text: "重置计时"
-                font.pixelSize: Math.max(12, parent.width * 0.013)
-                Layout.preferredWidth: Math.max(80, parent.width * 0.1)
+                font.pixelSize: Math.max(14, parent.width * 0.015)
+                Layout.preferredWidth: Math.max(100, parent.width * 0.12)
                 Layout.preferredHeight: Math.max(40, parent.height * 0.06)
                 onClicked: {
-                    payTime.stop()
-                    payButton.text = "开始礼佛"
-                    payButton.color = "#4CAF50"
-                    payTimeLabel.text = "礼佛计时 00:00"
+                    payTime.stop();
+                    payButton.text = "开始礼佛";
+                    payButton.color = "#4CAF50";
+                    payTimeLabel.text = "礼佛计时 00:00";
                 }
             }
         }
@@ -90,7 +96,7 @@ Rectangle {
             Layout.preferredWidth: Math.max(100, parent.width * 0.12)
             Layout.preferredHeight: Math.max(35, parent.height * 0.05)
             onClicked: {
-                fileDialog.open()
+                fileDialog.open();
             }
         }
     }
@@ -106,13 +112,13 @@ Rectangle {
             var parts = timeStr.split(":");
             var minutes = parseInt(parts[0]);
             var seconds = parseInt(parts[1]);
-            
+
             seconds++;
             if (seconds >= 60) {
                 seconds = 0;
                 minutes++;
             }
-            
+
             var newTimeStr = (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
             payTimeLabel.text = "礼佛计时 " + newTimeStr;
         }
