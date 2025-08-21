@@ -7,12 +7,137 @@ Rectangle {
     color: "#ffffff"
     anchors.fill: parent
 
+    property var buddhaList: [
+        {
+            "id": "shakyamuni",
+            "path": "Buddha/shakyamuni.png",
+            "name_cn": "释迦牟尼佛",
+            "name_en": "Shakyamuni Buddha",
+            "buddha_name": "南无本师释迦牟尼佛"
+        },
+        {
+            "id": "amitabha",
+            "path": "Buddha/amitabha.png",
+            "name_cn": "阿弥陀佛",
+            "name_en": "Amitabha Buddha",
+            "buddha_name": "南无阿弥陀佛"
+        },
+        {
+            "id": "medicine",
+            "path": "Buddha/medicine.png",
+            "name_cn": "药师佛",
+            "name_en": "Bhaisajyaguru (Medicine Buddha)",
+            "buddha_name": "南无消灾延寿药师佛"
+        },
+        {
+            "id": "maitreya",
+            "path": "Buddha/maitreya.png",
+            "name_cn": "弥勒佛",
+            "name_en": "Maitreya Buddha",
+            "buddha_name": "南无当来下生弥勒尊佛"
+        },
+        {
+            "id": "guanyin",
+            "path": "Bodhisattva/guanyin.png",
+            "name_cn": "观世音菩萨",
+            "name_en": "Avalokiteshvara (Guanyin Bodhisattva)",
+            "buddha_name": "南无大慈大悲观世音菩萨"
+        },
+        {
+            "id": "ksitigarbha",
+            "path": "Bodhisattva/ksitigarbha.png",
+            "name_cn": "地藏王菩萨",
+            "name_en": "Kṣitigarbha (Ksitigarbha Bodhisattva)",
+            "buddha_name": "南无大愿地藏王菩萨"
+        },
+        {
+            "id": "manjushri",
+            "path": "Bodhisattva/manjushri.png",
+            "name_cn": "文殊菩萨",
+            "name_en": "Manjushri Bodhisattva",
+            "buddha_name": "南无大智文殊师利菩萨"
+        },
+        {
+            "id": "samantabhadra",
+            "path": "Bodhisattva/samantabhadra.png",
+            "name_cn": "普贤菩萨",
+            "name_en": "Samantabhadra Bodhisattva",
+            "buddha_name": "南无大行普贤菩萨"
+        },
+        {
+            "id": "mahasthamaprapta",
+            "path": "Bodhisattva/mahasthamaprapta.png",
+            "name_cn": "大势至菩萨",
+            "name_en": "Mahasthamaprapta Bodhisattva",
+            "buddha_name": "南无大势至菩萨"
+        },
+        {
+            "id": "cundi",
+            "path": "Bodhisattva/cundi.png",
+            "name_cn": "准提菩萨",
+            "name_en": "Cundi Bodhisattva",
+            "buddha_name": "南无准提菩萨"
+        }
+    ]
+
     ColumnLayout {
         id: payColumn
-        width: 0.6 * parent.width
+        width: 0.9 * parent.width
         height: parent.height
         anchors.horizontalCenter: parent.horizontalCenter
         spacing: 20
+
+        RowLayout {
+            Layout.alignment: Qt.AlignLeft
+            Layout.topMargin: parent.height * 0.04
+            spacing: 20
+            
+            Repeater {
+                model: buddhaList
+                
+                Button {
+                    text: modelData.name_cn
+                    font.pixelSize: Math.max(12, parent.width * 0.01)
+                    Layout.preferredWidth: Math.max(80, parent.width * 0.08)
+                    Layout.preferredHeight: Math.max(35, parent.height * 0.05)
+                    hoverEnabled: false
+                    
+                    background: Rectangle {
+                        id: buddhaButtonBg
+                        border.width: 0
+                        // border.width: buddhaHover.hovered ? 1 : 0
+                        // border.color: buddhaHover.hovered ? "#ffffff" : "#ffffff"
+                        radius: 6
+                        color: buddhaHover.hovered ? "#77e777" : "#4CAF50"
+                        
+                        Behavior on color {
+                            ColorAnimation { duration: 150 }
+                        }
+                        Behavior on border.width {
+                            NumberAnimation { duration: 150 }
+                        }
+                    }
+                    
+                    contentItem: Text {
+                        text: parent.text
+                        font.pixelSize: parent.font.pixelSize
+                        color: "white"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        elide: Text.ElideRight
+                    }
+                    
+                    HoverHandler {
+                        id: buddhaHover
+                        cursorShape: Qt.PointingHandCursor
+                    }
+                    
+                    onClicked: {
+                        buddhaImage.source = "qrc:/Resources/resources/Image/Buddha/" + modelData.id + ".png"
+                    }
+                }
+            }
+        }
 
         Label {
             text: "虔诚礼佛，功德无量"
@@ -42,7 +167,7 @@ Rectangle {
         }
 
         RowLayout {
-            Layout.alignment: Qt.AlignHCenter
+            Layout.alignment: Qt.AlignRight
             Layout.topMargin: parent.height * 0.04
             spacing: 20
 
@@ -55,26 +180,26 @@ Rectangle {
                 hoverEnabled: false
                 background: Rectangle {
                     id: payButtonBg
-                    border.width: 0
-                    // radius: 12
-                    radius: pbhh.hovered ? 12 : 8
-                    color: pbhh.hovered ? "#7fe482" : "#66BB6A"
+                    border.width: payButtonHoverHandler.hovered ? 1 : 0
+                    border.color: payButtonHoverHandler.hovered ? "#968e8c" : "#ffffff"
+                    radius: 8
+                    color: payTime.running ? (payButtonHoverHandler.hovered ? "#FF5722" : "#f44336") : (payButtonHoverHandler.hovered ? "#66BB6A" : "#4CAF50")
                 }
 
                 HoverHandler {
-                    id: pbhh
+                    id: payButtonHoverHandler
                     cursorShape: Qt.PointingHandCursor
                 }
 
                 onClicked: {
                     if (payTime.running) {
                         payTime.stop();
-                        payButton.text = "开始礼佛"
-                        payButtonBg.color = "#4CAF50"
+                        payButton.text = "开始礼佛";
+                        payButtonBg.color = "#4CAF50";
                     } else {
                         payTime.start();
-                        payButton.text = "结束礼佛"
-                        payButtonBg.color = "#f44336"
+                        payButton.text = "结束礼佛";
+                        payButtonBg.color = "#f44336";
                     }
                 }
             }
@@ -110,8 +235,16 @@ Rectangle {
                     border.color: hh.hovered ? "#BF360C" : "#D84315"
                     border.width: 1
 
-                    Behavior on color  { ColorAnimation { duration: 140 } }
-                    Behavior on radius { NumberAnimation { duration: 140 } }
+                    Behavior on color {
+                        ColorAnimation {
+                            duration: 140
+                        }
+                    }
+                    Behavior on radius {
+                        NumberAnimation {
+                            duration: 140
+                        }
+                    }
                 }
 
                 contentItem: Text {
@@ -131,7 +264,7 @@ Rectangle {
                 onClicked: {
                     payTime.stop();
                     payButton.text = "开始礼佛";
-                    payButton.color = "#4CAF50";
+                    payButtonBg.color = "#4CAF50";
                     payTimeLabel.text = "礼佛计时 00:00";
                 }
             }
