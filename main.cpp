@@ -1,8 +1,9 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include "qml/AudioPlayer.h"
 
-#include "qml/Pay.h"
+// #include "qml/Pay.h"
 
 int main(int argc, char *argv[])
 {
@@ -10,8 +11,11 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    Pay pay;
-    engine.rootContext()->setContextProperty("pay", &pay);
+    AudioPlayer audioPlayer;
+
+    engine.rootContext()->setContextProperty("audioPlayer", &audioPlayer);
+    // Pay pay;
+    // engine.rootContext()->setContextProperty("pay", &pay);
 
     const QUrl url(QStringLiteral("qrc:/useless/main.qml"));
     QObject::connect(

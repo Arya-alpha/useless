@@ -12,18 +12,6 @@ qt_add_executable(appuseless
     main.cpp
 )
 
-# set(RESOURCE_FILES
-#     resources/阿弥陀佛.png
-#     resources/释迦牟尼佛.png
-#     resources/观世音菩萨.png
-#     resources/药师琉璃光如来.png
-#     resources/毗卢遮那佛.png
-#     resources/文殊师利菩萨.png
-#     resources/弥勒佛.png
-#     resources/卢舍那佛.png
-#     resources/1.png
-# )
-
 qt_add_qml_module(appuseless
     RESOURCE_PREFIX "/"
     URI useless
@@ -41,6 +29,8 @@ qt_add_qml_module(appuseless
         qml/config.cpp
     RESOURCES
         uselessui.qrc
+        SOURCES qml/AudioPlayer.h
+        SOURCES qml/AudioPlayer.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

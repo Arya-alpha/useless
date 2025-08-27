@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Dialogs
 import QtQuick.Layouts
+import QtQuick.Shapes
 
 Rectangle {
     color: "#ffffff"
@@ -80,206 +81,271 @@ Rectangle {
         }
     ]
 
-    ColumnLayout {
-        id: payColumn
-        width: 0.9 * parent.width
+    RowLayout {
+        id: mainRow
+        width: 0.95 * parent.width
         height: parent.height
         anchors.horizontalCenter: parent.horizontalCenter
-        spacing: 20
+        spacing: 10
 
-        RowLayout {
-            Layout.alignment: Qt.AlignLeft
-            Layout.topMargin: parent.height * 0.04
-            spacing: 20
-            
-            Repeater {
-                model: buddhaList
-                
-                Button {
-                    text: modelData.name_cn
-                    font.pixelSize: Math.max(12, parent.width * 0.01)
-                    Layout.preferredWidth: Math.max(80, parent.width * 0.08)
-                    Layout.preferredHeight: Math.max(35, parent.height * 0.05)
-                    hoverEnabled: false
-                    
-                    background: Rectangle {
-                        id: buddhaButtonBg
-                        border.width: 0
-                        // border.width: buddhaHover.hovered ? 1 : 0
-                        // border.color: buddhaHover.hovered ? "#ffffff" : "#ffffff"
-                        radius: 6
-                        color: buddhaHover.hovered ? "#77e777" : "#4CAF50"
-                        
-                        Behavior on color {
-                            ColorAnimation { duration: 150 }
+        // choose buddha
+        ColumnLayout {
+            Layout.fillWidth: true
+            Layout.preferredWidth: parent.width * 0.2
+            spacing: 15
+
+            // Label {
+            //     text: "选择佛像"
+            //     font.pixelSize: Math.max(18, parent.width * 0.025)
+            //     color: "#333"
+            //     Layout.alignment: Qt.AlignHCenter
+            //     Layout.topMargin: parent.height * 0.03
+            // }
+
+            GridLayout {
+                columns: 1
+                rowSpacing: 15
+                columnSpacing: 10
+                Layout.fillWidth: true
+
+                Repeater {
+                    model: buddhaList
+
+                    Button {
+                        text: modelData.name_cn
+                        font.pixelSize: Math.max(10, parent.width * 0.008)
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: Math.max(30, parent.height * 0.04)
+                        hoverEnabled: false
+
+                        background: Rectangle {
+                            width: Math.max(20, parent.width * 0.5)
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            border.width: 0
+                            radius: 6
+                            color: buddhaHover.hovered ? "#77e777" : "#4CAF50"
+
+                            Behavior on color {
+                                ColorAnimation {
+                                    duration: 150
+                                }
+                            }
                         }
-                        Behavior on border.width {
-                            NumberAnimation { duration: 150 }
+
+                        contentItem: Text {
+                            text: parent.text
+                            font.pixelSize: parent.font.pixelSize
+                            color: "white"
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            elide: Text.ElideRight
                         }
-                    }
-                    
-                    contentItem: Text {
-                        text: parent.text
-                        font.pixelSize: parent.font.pixelSize
-                        color: "white"
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                        elide: Text.ElideRight
-                    }
-                    
-                    HoverHandler {
-                        id: buddhaHover
-                        cursorShape: Qt.PointingHandCursor
-                    }
-                    
-                    onClicked: {
-                        buddhaImage.source = "qrc:/Resources/resources/Image/Buddha/" + modelData.id + ".png"
+
+                        HoverHandler {
+                            id: buddhaHover
+                            cursorShape: Qt.PointingHandCursor
+                        }
+
+                        onClicked: {
+                            image.source = "qrc:/Resources/resources/Image/" + modelData.path;
+                        }
                     }
                 }
             }
         }
 
-        Label {
-            text: "虔诚礼佛，功德无量"
-            font.pixelSize: Math.max(16, parent.width * 0.02)
-            color: "#666"
-            Layout.alignment: Qt.AlignHCenter
-            Layout.topMargin: parent.height * 0.05
-        }
+        // buddha 3D image
+        ColumnLayout {
+            Layout.fillWidth: true
+            Layout.preferredWidth: parent.width * 0.5
+            spacing: 15
 
-        Image {
-            id: image
-            Layout.alignment: Qt.AlignHCenter
-            Layout.preferredWidth: Math.min(0.5 * payColumn.width, 0.6 * payColumn.height)
-            Layout.preferredHeight: Layout.preferredWidth * 1.2
-            source: "qrc:/Resources/resources/Image/Buddha/default.png"
-            fillMode: Image.PreserveAspectFit
-            visible: true
-        }
+            // Label {
+            //     text: "虔诚礼佛，功德无量"
+            //     font.pixelSize: Math.max(16, parent.width * 0.02)
+            //     color: "#666"
+            //     Layout.alignment: Qt.AlignHCenter
+            //     Layout.topMargin: parent.height * 0.03
+            // }
 
-        Label {
-            id: payTimeLabel
-            text: "礼佛计时 00:00"
-            font.pixelSize: Math.max(16, parent.width * 0.018)
-            color: "#666"
-            Layout.alignment: Qt.AlignHCenter
-            Layout.topMargin: parent.height * 0.03
-        }
+            Image {
+                id: image
+                Layout.alignment: Qt.AlignHCenter
+                Layout.preferredWidth: Math.min(0.8 * (parent.width), 0.5 * parent.height)
+                Layout.preferredHeight: Layout.preferredWidth * 1.2
+                source: "qrc:/Resources/resources/Image/Buddha/default.png"
+                fillMode: Image.PreserveAspectFit
+                visible: true
+            }
 
-        RowLayout {
-            Layout.alignment: Qt.AlignRight
-            Layout.topMargin: parent.height * 0.04
-            spacing: 20
+            Label {
+                id: payTimeLabel
+                text: "礼佛计时 00:00"
+                font.pixelSize: Math.max(16, parent.width * 0.018)
+                color: "#666"
+                Layout.alignment: Qt.AlignHCenter
+                Layout.topMargin: parent.height * 0.02
+            }
 
             Button {
-                id: payButton
-                text: "开始礼佛"
-                font.pixelSize: Math.max(14, parent.width * 0.015)
-                Layout.preferredWidth: Math.max(100, parent.width * 0.12)
-                Layout.preferredHeight: Math.max(40, parent.height * 0.06)
-                hoverEnabled: false
-                background: Rectangle {
-                    id: payButtonBg
-                    border.width: payButtonHoverHandler.hovered ? 1 : 0
-                    border.color: payButtonHoverHandler.hovered ? "#968e8c" : "#ffffff"
+                text: "上传文件"
+                font.pixelSize: Math.max(12, parent.width * 0.012)
+                Layout.alignment: Qt.AlignHCenter
+                Layout.preferredWidth: Math.max(80, parent.width * 0.15)
+                Layout.preferredHeight: Math.max(30, parent.height * 0.04)
+                onClicked: {
+                    fileDialog.open();
+                }
+            }
+        }
+
+        // audio control
+        ColumnLayout {
+            Layout.fillWidth: true
+            Layout.preferredWidth: parent.width * 0.3
+            spacing: 15
+
+            RowLayout {
+                width: 0.95 * parent.width
+                height: parent.height
+                anchors.horizontalCenter: parent.horizontalCenter
+                spacing: 10
+
+                Rectangle {
+                    id: audioPlayerControl
+                    color: "#ffffff"
+                    width: parent.width
+                    height: parent.height * 0.1
+                    border.width: 2
+                    border.color: "#000000"
                     radius: 8
-                    color: payTime.running ? (payButtonHoverHandler.hovered ? "#FF5722" : "#f44336") : (payButtonHoverHandler.hovered ? "#66BB6A" : "#4CAF50")
-                }
 
-                HoverHandler {
-                    id: payButtonHoverHandler
-                    cursorShape: Qt.PointingHandCursor
-                }
+                    // Text {
+                    //     anchors.leftMargin: 10
+                    //     anchors.verticalCenter: parent.verticalCenter
+                    //     text: "当前正在播放的音乐《"
+                    //     color: "#000000"
+                    //     font.pixelSize: Math.max(12, parent.width * 0.01)
+                    // }
 
-                onClicked: {
-                    if (payTime.running) {
-                        payTime.stop();
-                        payButton.text = "开始礼佛";
-                        payButtonBg.color = "#4CAF50";
-                    } else {
-                        payTime.start();
-                        payButton.text = "结束礼佛";
-                        payButtonBg.color = "#f44336";
-                    }
-                }
-            }
+                    // Rectangle {
+                    //     Layout.alignment: Qt.AlignHCenter
+                    //     Layout.preferredWidth: 60
+                    //     Layout.preferredHeight: 60
+                    //     color: "#f0f0f0"
+                    //     radius: 8
+                    //     Shape {
+                    //         anchors.centerIn: parent
+                    //         width: 30
+                    //         height: 30
 
-            Button {
-                id: resetButton
-                text: "重置计时"
-                font.pixelSize: Math.max(14, parent.width * 0.015)
-                Layout.preferredWidth: Math.max(100, parent.width * 0.12)
-                Layout.preferredHeight: Math.max(40, parent.height * 0.06)
-                onClicked: {
-                    payTime.stop();
-                    payButton.text = "开始礼佛";
-                    payButton.color = "#4CAF50";
-                    payTimeLabel.text = "礼佛计时 00:00";
-                }
-            }
-
-            Button {
-                id: resetButton1
-                text: "重置计时"
-
-                hoverEnabled: false
-
-                font.pixelSize: Math.max(14, parent.width * 0.015)
-                Layout.preferredWidth: Math.max(100, parent.width * 0.12)
-                Layout.preferredHeight: Math.max(40, parent.height * 0.06)
-
-                background: Rectangle {
-                    id: bg
-                    radius: hh.hovered ? 20 : 12
-                    color: hh.hovered ? "#FF8A65" : "#FF7043"
-                    border.color: hh.hovered ? "#BF360C" : "#D84315"
-                    border.width: 1
-
-                    Behavior on color {
-                        ColorAnimation {
-                            duration: 140
-                        }
-                    }
-                    Behavior on radius {
-                        NumberAnimation {
-                            duration: 140
-                        }
-                    }
-                }
-
-                contentItem: Text {
-                    text: resetButton.text
-                    font.pixelSize: resetButton.font.pixelSize
-                    color: "white"
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    elide: Text.ElideRight
-                }
-
-                HoverHandler {
-                    id: hh
-                    cursorShape: Qt.PointingHandCursor
-                }
-
-                onClicked: {
-                    payTime.stop();
-                    payButton.text = "开始礼佛";
-                    payButtonBg.color = "#4CAF50";
-                    payTimeLabel.text = "礼佛计时 00:00";
+                    //         ShapePath {
+                    //             strokeColor: "transparent"
+                    //             fillColor: "#666"
+                    //             PathLine {
+                    //                 x: 0
+                    //                 y: 0
+                    //             }
+                    //             PathLine {
+                    //                 x: 30
+                    //                 y: 15
+                    //             }
+                    //             PathLine {
+                    //                 x: 0
+                    //                 y: 30
+                    //             }
+                    //         }
+                    //     }
+                    // }
                 }
             }
-        }
 
-        Button {
-            text: "上传文件"
-            font.pixelSize: Math.max(12, parent.width * 0.012)
-            Layout.alignment: Qt.AlignHCenter
-            Layout.topMargin: parent.height * 0.05
-            Layout.preferredWidth: Math.max(100, parent.width * 0.12)
-            Layout.preferredHeight: Math.max(35, parent.height * 0.05)
-            onClicked: {
-                fileDialog.open();
-            }
+            // Label {
+            //     text: "礼佛控制"
+            //     font.pixelSize: Math.max(18, parent.width * 0.025)
+            //     color: "#333"
+            //     Layout.alignment: Qt.AlignHCenter
+            //     Layout.topMargin: parent.height * 0.03
+            // }
+
+            // Button {
+            //     id: payButton
+            //     text: "开始礼佛"
+            //     font.pixelSize: Math.max(14, parent.width * 0.015)
+            //     Layout.fillWidth: true
+            //     Layout.preferredHeight: Math.max(40, parent.height * 0.06)
+            //     hoverEnabled: false
+            //     background: Rectangle {
+            //         id: payButtonBg
+            //         border.width: payButtonHoverHandler.hovered ? 1 : 0
+            //         border.color: payButtonHoverHandler.hovered ? "#968e8c" : "#ffffff"
+            //         radius: 8
+            //         color: payTime.running ? (payButtonHoverHandler.hovered ? "#FF5722" : "#f44336") : (payButtonHoverHandler.hovered ? "#66BB6A" : "#4CAF50")
+            //     }
+
+            //     HoverHandler {
+            //         id: payButtonHoverHandler
+            //         cursorShape: Qt.PointingHandCursor
+            //     }
+
+            //     onClicked: {
+            //         if (payTime.running) {
+            //             payTime.stop();
+            //             payButton.text = "开始礼佛";
+            //             payButtonBg.color = "#4CAF50";
+            //         } else {
+            //             payTime.start();
+            //             payButton.text = "结束礼佛";
+            //             payButtonBg.color = "#f44336";
+            //         }
+            //     }
+            // }
+
+            // Button {
+            //     id: resetButton
+            //     text: "重置计时"
+            //     font.pixelSize: Math.max(14, parent.width * 0.015)
+            //     Layout.fillWidth: true
+            //     Layout.preferredHeight: Math.max(40, parent.height * 0.06)
+            //     background: Rectangle {
+            //         radius: hh.hovered ? 20 : 12
+            //         color: hh.hovered ? "#FF8A65" : "#FF7043"
+            //         border.color: hh.hovered ? "#BF360C" : "#D84315"
+            //         border.width: 1
+
+            //         Behavior on color {
+            //             ColorAnimation {
+            //                 duration: 140
+            //             }
+            //         }
+            //         Behavior on radius {
+            //             NumberAnimation {
+            //                 duration: 140
+            //             }
+            //         }
+            //     }
+
+            // contentItem: Text {
+            //     text: resetButton.text
+            //     font.pixelSize: resetButton.font.pixelSize
+            //     color: "white"
+            //     horizontalAlignment: Text.AlignHCenter
+            //     verticalAlignment: Text.AlignVCenter
+            //     elide: Text.ElideRight
+            // }
+
+            // HoverHandler {
+            //     id: hh
+            //     cursorShape: Qt.PointingHandCursor
+            // }
+
+            // onClicked: {
+            //     payTime.stop();
+            //     payButton.text = "开始礼佛";
+            //     payButtonBg.color = "#4CAF50";
+            //     payTimeLabel.text = "礼佛计时 00:00";
+            // }
+            // }
         }
     }
 
