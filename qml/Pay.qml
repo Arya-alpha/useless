@@ -199,66 +199,116 @@ Rectangle {
             }
         }
 
-        // audio control
+        // audio control and pay control
         ColumnLayout {
             Layout.fillWidth: true
             Layout.preferredWidth: parent.width * 0.3
             spacing: 15
 
-            RowLayout {
-                width: 0.95 * parent.width
-                height: parent.height
-                anchors.horizontalCenter: parent.horizontalCenter
-                spacing: 10
+            Rectangle {
+                Layout.preferredWidth: 0.8 * parent.width
+                Layout.fillHeight: true
+                // color: "#ffffff"
+                // border.width: 1
+                // border.color: "#000000"
+                // radius: 8
 
                 Rectangle {
-                    id: audioPlayerControl
+                    id: audioPlayerController
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    // Layout.preferredWidth: parent.width
+                    // Layout.preferredHeight: 0.3 * parent.height
                     color: "#ffffff"
-                    width: parent.width
-                    height: parent.height * 0.1
-                    border.width: 2
+                    border.width: 1
                     border.color: "#000000"
                     radius: 8
 
-                    // Text {
-                    //     anchors.leftMargin: 10
-                    //     anchors.verticalCenter: parent.verticalCenter
-                    //     text: "当前正在播放的音乐《"
-                    //     color: "#000000"
-                    //     font.pixelSize: Math.max(12, parent.width * 0.01)
-                    // }
-
-                    // Rectangle {
-                    //     Layout.alignment: Qt.AlignHCenter
-                    //     Layout.preferredWidth: 60
-                    //     Layout.preferredHeight: 60
-                    //     color: "#f0f0f0"
-                    //     radius: 8
-                    //     Shape {
-                    //         anchors.centerIn: parent
-                    //         width: 30
-                    //         height: 30
-
-                    //         ShapePath {
-                    //             strokeColor: "transparent"
-                    //             fillColor: "#666"
-                    //             PathLine {
-                    //                 x: 0
-                    //                 y: 0
-                    //             }
-                    //             PathLine {
-                    //                 x: 30
-                    //                 y: 15
-                    //             }
-                    //             PathLine {
-                    //                 x: 0
-                    //                 y: 30
-                    //             }
-                    //         }
-                    //     }
-                    // }
+                    Text {
+                        anchors.centerIn: parent
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: "当前正在播放《"
+                        color: "#000000"
+                        font.pixelSize: Math.max(12, parent.width * 0.01)
+                    }
                 }
+
+                // RowLayout {
+                //     Layout.fillWidth: true
+                //     Layout.preferredWidth: 6
+                //     Layout.preferredHeight: parent.height
+
+                //     Rectangle {
+                //         Layout.fillWidth: true
+                //         Layout.preferredWidth: 0.6 * parent.width
+                //         Layout.preferredHeight: Math.max(30, parent.height * 0.06)
+                //         color: "#ffffff"
+                //         border.width: 1
+                //         border.color: "#000000"
+                //         radius: 8
+                //     }
+
+                //     ToolButton {
+                //         text: player.playbackState === MediaPlayer.PlayingState ? "⏸" : "▶"
+                //     }
+                // }
+
+                // Rectangle {
+                //     id: playButton
+                //     Layout.alignment: Qt.AlignHCenter
+                //     Layout.preferredWidth: 0.8 * parent.width
+                //     Layout.preferredHeight: 0.8 * parent.height
+                //     color: "#f0f0f0"
+                //     radius: 8
+                //     Shape {
+                //         anchors.centerIn: parent
+                //         width: 0.8 * parent.width
+                //         height: 0.8 * parent.height
+
+                //         ShapePath {
+                //             strokeColor: "transparent"
+                //             fillColor: "#666"
+                //             PathLine {
+                //                 x: 0
+                //                 y: 0
+                //             }
+                //             PathLine {
+                //                 x: 30
+                //                 y: 15
+                //             }
+                //             PathLine {
+                //                 x: 0
+                //                 y: 30
+                //             }
+                //         }
+                //     }
+                // }
             }
+
+            Rectangle {
+                Layout.preferredWidth: 0.8 * parent.width
+                Layout.preferredHeight: 0.2 * parent.height
+                color: "#ffffff"
+                border.width: 1
+                border.color: "#000000"
+                radius: 8
+            }
+
+            Rectangle {
+                Layout.preferredWidth: 0.8 * parent.width
+                Layout.preferredHeight: 0.5 * parent.height
+                color: "#ffffff"
+                border.width: 1
+                border.color: "#000000"
+                radius: 8
+            }
+
+            // ColumnLayout {
+            //     id: audioPlayerControl
+            //     Layout.fillWidth: parent
+            //     Layout.preferredHeight: 0.3 * parent.height
+            //     spacing: 10
+            // }
 
             // Label {
             //     text: "礼佛控制"
