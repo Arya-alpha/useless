@@ -94,14 +94,6 @@ Rectangle {
             Layout.preferredWidth: parent.width * 0.2
             spacing: 15
 
-            // Label {
-            //     text: "选择佛像"
-            //     font.pixelSize: Math.max(18, parent.width * 0.025)
-            //     color: "#333"
-            //     Layout.alignment: Qt.AlignHCenter
-            //     Layout.topMargin: parent.height * 0.03
-            // }
-
             GridLayout {
                 columns: 1
                 rowSpacing: 15
@@ -208,10 +200,6 @@ Rectangle {
             Rectangle {
                 Layout.preferredWidth: 0.8 * parent.width
                 Layout.fillHeight: true
-                // color: "#ffffff"
-                // border.width: 1
-                // border.color: "#000000"
-                // radius: 8
 
                 Rectangle {
                     id: audioPlayerController
@@ -230,6 +218,17 @@ Rectangle {
                         text: "当前正在播放《"
                         color: "#000000"
                         font.pixelSize: Math.max(12, parent.width * 0.01)
+                    }
+
+                    Button {
+                        id: audioPlayButton
+                        icon: "qrc:/Resources/resources/Image/button/start.png"
+
+                        // onClicked: {
+                        //     if (start) {
+
+                        //     }
+                        // }
                     }
                 }
 

@@ -12,5 +12,7 @@
         <file>resources/Image/Bodhisattva/文殊师利菩萨.png</file>
         <file>resources/Image/Bodhisattva/文殊师利菩萨1.png</file>
         <file>resources/Image/Buddha/shakyamuni.png</file>
+        <file>resources/Image/button/start.png</file>
+        <file>resources/Image/button/stop.png</file>
     </qresource>
 </RCC>
