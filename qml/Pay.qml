@@ -11,70 +11,70 @@ Rectangle {
     property var buddhaList: [
         {
             "id": "shakyamuni",
-            "path": "Buddha/shakyamuni.png",
+            "path": "shakyamuni.png",
             "name_cn": "释迦牟尼佛",
             "name_en": "Shakyamuni Buddha",
             "buddha_name": "南无本师释迦牟尼佛"
         },
         {
             "id": "amitabha",
-            "path": "Buddha/amitabha.png",
+            "path": "amitabha.png",
             "name_cn": "阿弥陀佛",
             "name_en": "Amitabha Buddha",
             "buddha_name": "南无阿弥陀佛"
         },
         {
             "id": "medicine",
-            "path": "Buddha/medicine.png",
+            "path": "medicine.png",
             "name_cn": "药师佛",
             "name_en": "Bhaisajyaguru (Medicine Buddha)",
             "buddha_name": "南无消灾延寿药师佛"
         },
         {
             "id": "maitreya",
-            "path": "Buddha/maitreya.png",
+            "path": "maitreya.png",
             "name_cn": "弥勒佛",
             "name_en": "Maitreya Buddha",
             "buddha_name": "南无当来下生弥勒尊佛"
         },
         {
             "id": "guanyin",
-            "path": "Bodhisattva/guanyin.png",
+            "path": "guanyin.png",
             "name_cn": "观世音菩萨",
             "name_en": "Avalokiteshvara (Guanyin Bodhisattva)",
             "buddha_name": "南无大慈大悲观世音菩萨"
         },
         {
             "id": "ksitigarbha",
-            "path": "Bodhisattva/ksitigarbha.png",
+            "path": "ksitigarbha.png",
             "name_cn": "地藏王菩萨",
             "name_en": "Kṣitigarbha (Ksitigarbha Bodhisattva)",
             "buddha_name": "南无大愿地藏王菩萨"
         },
         {
             "id": "manjushri",
-            "path": "Bodhisattva/manjushri.png",
+            "path": "manjushri.png",
             "name_cn": "文殊菩萨",
             "name_en": "Manjushri Bodhisattva",
             "buddha_name": "南无大智文殊师利菩萨"
         },
         {
             "id": "samantabhadra",
-            "path": "Bodhisattva/samantabhadra.png",
+            "path": "samantabhadra.png",
             "name_cn": "普贤菩萨",
             "name_en": "Samantabhadra Bodhisattva",
             "buddha_name": "南无大行普贤菩萨"
         },
         {
             "id": "mahasthamaprapta",
-            "path": "Bodhisattva/mahasthamaprapta.png",
+            "path": "mahasthamaprapta.png",
             "name_cn": "大势至菩萨",
             "name_en": "Mahasthamaprapta Bodhisattva",
             "buddha_name": "南无大势至菩萨"
         },
         {
             "id": "cundi",
-            "path": "Bodhisattva/cundi.png",
+            "path": "cundi.png",
             "name_cn": "准提菩萨",
             "name_en": "Cundi Bodhisattva",
             "buddha_name": "南无准提菩萨"
@@ -87,6 +87,13 @@ Rectangle {
         height: parent.height
         anchors.horizontalCenter: parent.horizontalCenter
         spacing: 10
+
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+            topMargin: 10
+        }
 
         // choose buddha
         ColumnLayout {
@@ -115,7 +122,7 @@ Rectangle {
                             anchors.horizontalCenter: parent.horizontalCenter
                             border.width: 0
                             radius: 6
-                            color: buddhaHover.hovered ? "#77e777" : "#4CAF50"
+                            color: buddhaHover.hovered ? "#D4CAB6" : "#F7DAA1"
 
                             Behavior on color {
                                 ColorAnimation {
@@ -139,7 +146,7 @@ Rectangle {
                         }
 
                         onClicked: {
-                            image.source = "qrc:/Resources/resources/Image/" + modelData.path;
+                            image.source = "qrc:/Resources/resources/Image/Buddha3D/" + modelData.path;
                         }
                     }
                 }
@@ -200,36 +207,58 @@ Rectangle {
             Rectangle {
                 Layout.preferredWidth: 0.8 * parent.width
                 Layout.fillHeight: true
+                // color: "#ffffff"
+                // border.width: 1
+                // border.color: "#000000"
+                // radius: 8
 
                 Rectangle {
                     id: audioPlayerController
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    // Layout.preferredWidth: parent.width
-                    // Layout.preferredHeight: 0.3 * parent.height
+                    anchors.centerIn: parent
+                    width: parent.width
+                    height: 0.2 * parent.height
                     color: "#ffffff"
                     border.width: 1
                     border.color: "#000000"
                     radius: 8
 
-                    Text {
-                        anchors.centerIn: parent
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: "当前正在播放《"
-                        color: "#000000"
-                        font.pixelSize: Math.max(12, parent.width * 0.01)
+                    RowLayout {
+                        anchors.fill: parent
+                        anchors.margins: 10
+                        spacing: 10
+
+                        Text {
+                            Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignVCenter
+                            // Layout.preferredWidth: 0.5 * parent.width
+                            Layout.fillHeight: true
+                            text: "当前正在播放《"
+                            color: "#000000"
+                            font.pixelSize: Math.max(12, parent.width * 0.01)
+                        }
+
+                        Button {
+                            id: audioPlayButton
+                            Layout.preferredWidth: 44
+                            Layout.preferredHeight: 44
+                            Layout.alignment: Qt.AlignVCenter
+                            display: AbstractButton.IconOnly
+                            icon.source: "qrc:/Resources/resources/Image/button/start.png"
+                            icon.width: 24
+                            icon.height: 24
+
+                            // Layout.preferredWidth: Math.max(20, 0.8 * parent.width)
+                            // Layout.fillHeight: true
+
+                            // onClicked: {
+                            //     if (start) {
+
+                            //     }
+                            // }
+                        }
                     }
 
-                    Button {
-                        id: audioPlayButton
-                        icon: "qrc:/Resources/resources/Image/button/start.png"
 
-                        // onClicked: {
-                        //     if (start) {
-
-                        //     }
-                        // }
-                    }
                 }
 
                 // RowLayout {

@@ -14,5 +14,15 @@
         <file>resources/Image/Buddha/shakyamuni.png</file>
         <file>resources/Image/button/start.png</file>
         <file>resources/Image/button/stop.png</file>
+        <file>resources/Image/Buddha3D/amitabha.png</file>
+        <file>resources/Image/Buddha3D/cundi.png</file>
+        <file>resources/Image/Buddha3D/guanyin.png</file>
+        <file>resources/Image/Buddha3D/ksitigarbha.png</file>
+        <file>resources/Image/Buddha3D/mahasthamaprapta.png</file>
+        <file>resources/Image/Buddha3D/maitreya.png</file>
+        <file>resources/Image/Buddha3D/manjushri.png</file>
+        <file>resources/Image/Buddha3D/medicine.png</file>
+        <file>resources/Image/Buddha3D/samantabhadra.png</file>
+        <file>resources/Image/Buddha3D/shakyamuni.png</file>
     </qresource>
 </RCC>
