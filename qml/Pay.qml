@@ -89,10 +89,8 @@ Rectangle {
         spacing: 10
 
         anchors {
-            top: parent.top
-            left: parent.left
-            right: parent.right
-            topMargin: 10
+            fill: parent
+            margins: 10
         }
 
         // choose buddha
@@ -170,32 +168,32 @@ Rectangle {
             Image {
                 id: image
                 Layout.alignment: Qt.AlignHCenter
-                Layout.preferredWidth: Math.min(0.8 * (parent.width), 0.5 * parent.height)
+                Layout.preferredWidth: Math.min(parent.width, 0.8 * parent.height)
                 Layout.preferredHeight: Layout.preferredWidth * 1.2
-                source: "qrc:/Resources/resources/Image/Buddha/default.png"
+                source: "qrc:/Resources/resources/Image/Buddha3D/shakyamuni.png"
                 fillMode: Image.PreserveAspectFit
                 visible: true
             }
 
-            Label {
-                id: payTimeLabel
-                text: "礼佛计时 00:00"
-                font.pixelSize: Math.max(16, parent.width * 0.018)
-                color: "#666"
-                Layout.alignment: Qt.AlignHCenter
-                Layout.topMargin: parent.height * 0.02
-            }
+            // Label {
+            //     id: payTimeLabel
+            //     text: "礼佛计时 00:00"
+            //     font.pixelSize: Math.max(16, parent.width * 0.018)
+            //     color: "#666"
+            //     Layout.alignment: Qt.AlignHCenter
+            //     Layout.topMargin: parent.height * 0.02
+            // }
 
-            Button {
-                text: "上传文件"
-                font.pixelSize: Math.max(12, parent.width * 0.012)
-                Layout.alignment: Qt.AlignHCenter
-                Layout.preferredWidth: Math.max(80, parent.width * 0.15)
-                Layout.preferredHeight: Math.max(30, parent.height * 0.04)
-                onClicked: {
-                    fileDialog.open();
-                }
-            }
+            // Button {
+            //     text: "上传文件"
+            //     font.pixelSize: Math.max(12, parent.width * 0.012)
+            //     Layout.alignment: Qt.AlignHCenter
+            //     Layout.preferredWidth: Math.max(80, parent.width * 0.15)
+            //     Layout.preferredHeight: Math.max(30, parent.height * 0.04)
+            //     onClicked: {
+            //         fileDialog.open();
+            //     }
+            // }
         }
 
         // audio control and pay control
@@ -329,16 +327,6 @@ Rectangle {
                 radius: 8
 
                 property var musicList: audioPlayer.getMusicList()
-                // property var musicList: [
-                //     {
-                //         "name": "南无阿弥陀佛",
-                //         "file": "qrc:/Resources/resources/Music/南无阿弥陀佛.mp3"
-                //     },
-                //     {
-                //         "name": "释迦摩尼佛",
-                //         "file": "qrc:/Resources/resources/Music/释迦摩尼佛.mp3"
-                //     }
-                // ]
 
                 ColumnLayout {
                     anchors.fill: parent
@@ -355,7 +343,7 @@ Rectangle {
                     ListView {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        model: parent.parent.musicList
+                        model: musicList
                         spacing: 2
 
                         delegate: Button {

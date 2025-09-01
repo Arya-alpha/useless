@@ -2,6 +2,7 @@
 #define AUDIOPLAYER_H
 
 #include <QObject>
+#include <QVariant>
 #include <QMediaPlayer>
 #include <QAudioOutput>
 #include <QUrl>
@@ -18,7 +19,7 @@ public:
 
     Q_INVOKABLE void play(const QString &musicUrl);
     Q_INVOKABLE void stop();
-    Q_INVOKABLE QStringList getMusicList();
+    Q_INVOKABLE QVariantList getMusicList();
     Q_INVOKABLE void changeMusic(const QString &musicUrl);
     // Q_INVOKABLE void pause();
     // Q_INVOKABLE void resume();

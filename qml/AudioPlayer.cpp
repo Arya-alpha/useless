@@ -58,14 +58,28 @@ void AudioPlayer::stop()
     }
 }
 
-QStringList AudioPlayer::getMusicList()
+QVariantList AudioPlayer::getMusicList()
 {
-    QString appDir = QCoreApplication::applicationDirPath();
-    QString musicDir = appDir + "/music";
-    QDir directory(musicDir);
-    QStringList musicFiles = directory.entryList(QStringList() << "*.mp3" << "*.wav" << "*.wma" << "*.flac", QDir::Files);
-    qDebug() << "AudioPlayer::getMusicList() - Music directory:" << musicDir;
-    return musicFiles;
+    // debug
+    QString musicDir = QCoreApplication::applicationDirPath() + "/../../resources/Music";
+    // publish
+    // QString appDir = QCoreApplication::applicationDirPath();
+    // QString musicDir = appDir + "/resources/Music";
+
+    QDir dir(musicDir);
+    QStringList filters;
+    filters << "*.mp3" << "*.wav" << "*.flac";
+
+    const QFileInfoList list = dir.entryInfoList(filters, QDir::Files);
+    QVariantList musicList;
+    // convert to QML urls
+    for (const QFileInfo &info : list) {
+        QVariantMap musicInfo;
+        musicInfo["name"] = info.fileName();
+        musicInfo["path"] = "file:///" + info.absoluteFilePath();
+        musicList << musicInfo;
+    }
+    return musicList;
 }
 
 void AudioPlayer::changeMusic(const QString &musicUrl)
