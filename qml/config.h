@@ -13,6 +13,8 @@ public:
 
     Q_INVOKABLE void setCustomPath(const QString &sourcePath);
     Q_INVOKABLE QString getCustomPath();
+    Q_INVOKABLE void setCurrentMusicUrl(const QString &musicUrl);
+    Q_INVOKABLE QString getCurrentMusicUrl();
 
 private:
     QSettings *settings;

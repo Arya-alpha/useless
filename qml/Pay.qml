@@ -222,6 +222,8 @@ Rectangle {
                     border.color: "#000000"
                     radius: 8
 
+                    property string currentMusicUrl: userConfig.getCurrentMusicUrl
+
                     RowLayout {
                         anchors.fill: parent
                         anchors.margins: 10
@@ -229,36 +231,41 @@ Rectangle {
 
                         Text {
                             Layout.fillWidth: true
-                            Layout.alignment: Qt.AlignVCenter
-                            // Layout.preferredWidth: 0.5 * parent.width
                             Layout.fillHeight: true
-                            text: "当前正在播放《"
+                            Layout.alignment: Qt.AlignVCenter
+                            text: audioPlayer.isPlaying ? ("当前正在播放《" + audioPlayerController.currentMusicName + "》") : "当前暂无正在播放的音乐"
                             color: "#000000"
                             font.pixelSize: Math.max(12, parent.width * 0.01)
+                            wrapMode: Text.WordWrap
                         }
 
                         Button {
                             id: audioPlayButton
-                            Layout.preferredWidth: 44
-                            Layout.preferredHeight: 44
+                            Layout.preferredWidth: 40
+                            Layout.preferredHeight: 40
                             Layout.alignment: Qt.AlignVCenter
                             display: AbstractButton.IconOnly
-                            icon.source: "qrc:/Resources/resources/Image/button/start.png"
                             icon.width: 24
                             icon.height: 24
+                            icon.source: audioPlayer.isPlaying ? "qrc:/Resources/resources/Image/button/stop.png"
+                                                               : "qrc:/Resources/resources/Image/button/start.png"
 
-                            // Layout.preferredWidth: Math.max(20, 0.8 * parent.width)
-                            // Layout.fillHeight: true
+                            background: Rectangle {
+                                color: parent.hovered ? "#f0f0f0" : "transparent"
+                                radius: 4
+                            }
 
-                            // onClicked: {
-                            //     if (start) {
-
-                            //     }
-                            // }
+                            onClicked: {
+                                if (audioPlayer.isPlaying) {
+                                    audioPlayer.stop();
+                                } else {
+                                    // Play the default music
+                                    audioPlayer.play("qrc:/Resources/resources/Music/南无阿弥陀佛.mp3");
+                                    audioPlayerController.currentMusicName = "南无阿弥陀佛";
+                                }
+                            }
                         }
                     }
-
-
                 }
 
                 // RowLayout {
@@ -320,6 +327,57 @@ Rectangle {
                 border.width: 1
                 border.color: "#000000"
                 radius: 8
+
+                property var musicList: audioPlayer.getMusicList()
+                // property var musicList: [
+                //     {
+                //         "name": "南无阿弥陀佛",
+                //         "file": "qrc:/Resources/resources/Music/南无阿弥陀佛.mp3"
+                //     },
+                //     {
+                //         "name": "释迦摩尼佛",
+                //         "file": "qrc:/Resources/resources/Music/释迦摩尼佛.mp3"
+                //     }
+                // ]
+
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.margins: 10
+                    spacing: 5
+
+                    Text {
+                        text: "选择佛音"
+                        font.pixelSize: Math.max(12, parent.width * 0.015)
+                        color: "#333"
+                        Layout.alignment: Qt.AlignHCenter
+                    }
+
+                    ListView {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        model: parent.parent.musicList
+                        spacing: 2
+
+                        delegate: Button {
+                            width: ListView.view.width
+                            height: 25
+                            text: modelData.name
+                            font.pixelSize: Math.max(10, parent.width * 0.01)
+
+                            background: Rectangle {
+                                color: parent.hovered ? "#F7DAA1" : "#ffffff"
+                                border.width: 1
+                                border.color: "#ddd"
+                                radius: 4
+                            }
+
+                            onClicked: {
+                                audioPlayer.play(modelData.file);
+                                audioPlayerController.currentMusicName = modelData.name;
+                            }
+                        }
+                    }
+                }
             }
 
             Rectangle {
@@ -329,6 +387,113 @@ Rectangle {
                 border.width: 1
                 border.color: "#000000"
                 radius: 8
+
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.margins: 15
+                    spacing: 10
+
+                    Text {
+                        text: "音量控制"
+                        font.pixelSize: Math.max(12, parent.width * 0.015)
+                        color: "#333"
+                        Layout.alignment: Qt.AlignHCenter
+                    }
+
+                    Slider {
+                        id: volumeSlider
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 30
+                        from: 0.0
+                        to: 1.0
+                        value: 0.7
+                        stepSize: 0.1
+
+                        onValueChanged: {
+                            audioPlayer.setVolume(value);
+                        }
+
+                        background: Rectangle {
+                            x: volumeSlider.leftPadding
+                            y: volumeSlider.topPadding + volumeSlider.availableHeight / 2 - height / 2
+                            implicitWidth: 200
+                            implicitHeight: 4
+                            width: volumeSlider.availableWidth
+                            height: implicitHeight
+                            radius: 2
+                            color: "#bdbebf"
+
+                            Rectangle {
+                                width: volumeSlider.visualPosition * parent.width
+                                height: parent.height
+                                color: "#F7DAA1"
+                                radius: 2
+                            }
+                        }
+
+                        handle: Rectangle {
+                            x: volumeSlider.leftPadding + volumeSlider.visualPosition * (volumeSlider.availableWidth - width)
+                            y: volumeSlider.topPadding + volumeSlider.availableHeight / 2 - height / 2
+                            implicitWidth: 20
+                            implicitHeight: 20
+                            radius: 10
+                            color: volumeSlider.pressed ? "#D4CAB6" : "#F7DAA1"
+                            border.color: "#bdbebf"
+                        }
+                    }
+
+                    Text {
+                        text: "音量: " + Math.round(volumeSlider.value * 100) + "%"
+                        font.pixelSize: Math.max(10, parent.width * 0.012)
+                        color: "#666"
+                        Layout.alignment: Qt.AlignHCenter
+                    }
+
+                    // Additional playback controls
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Layout.alignment: Qt.AlignHCenter
+                        spacing: 10
+
+                        Button {
+                            text: "暂停"
+                            enabled: audioPlayer.isPlaying
+                            font.pixelSize: Math.max(10, parent.width * 0.01)
+                            Layout.preferredWidth: 60
+                            Layout.preferredHeight: 30
+
+                            background: Rectangle {
+                                color: parent.enabled ? (parent.hovered ? "#D4CAB6" : "#F7DAA1") : "#f0f0f0"
+                                border.width: 1
+                                border.color: "#ddd"
+                                radius: 4
+                            }
+
+                            onClicked: {
+                                audioPlayer.pause();
+                            }
+                        }
+
+                        Button {
+                            text: "停止"
+                            enabled: audioPlayer.isPlaying
+                            font.pixelSize: Math.max(10, parent.width * 0.01)
+                            Layout.preferredWidth: 60
+                            Layout.preferredHeight: 30
+
+                            background: Rectangle {
+                                color: parent.enabled ? (parent.hovered ? "#D4CAB6" : "#F7DAA1") : "#f0f0f0"
+                                border.width: 1
+                                border.color: "#ddd"
+                                radius: 4
+                            }
+
+                            onClicked: {
+                                audioPlayer.stop();
+                            }
+                        }
+                    }
+                }
             }
 
             // ColumnLayout {

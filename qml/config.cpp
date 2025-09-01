@@ -17,3 +17,15 @@ QString Config::getCustomPath()
     QSettings settings;
     return settings.value("image/sourcePath").toString();
 }
+
+void Config::setCurrentMusicUrl(const QString &musicUrl)
+{
+    QSettings settings;
+    settings.setValue("music/musicUrl", musicUrl);
+}
+
+QString Config::getCurrentMusicUrl()
+{
+    QSettings settings;
+    return settings.value("music/musicUrl").toString();
+}

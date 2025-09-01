@@ -24,5 +24,7 @@
         <file>resources/Image/Buddha3D/medicine.png</file>
         <file>resources/Image/Buddha3D/samantabhadra.png</file>
         <file>resources/Image/Buddha3D/shakyamuni.png</file>
+        <file>resources/Music/南无阿弥陀佛.mp3</file>
+        <file>resources/Music/释迦摩尼佛.mp3</file>
     </qresource>
 </RCC>
