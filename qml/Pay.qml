@@ -8,6 +8,7 @@ Rectangle {
     color: "#ffffff"
     anchors.fill: parent
 
+    property var musicList: audioPlayer.getMusicList()
     property var buddhaList: [
         {
             "id": "shakyamuni",
@@ -82,7 +83,6 @@ Rectangle {
     ]
 
     RowLayout {
-        id: mainRow
         width: 0.95 * parent.width
         height: parent.height
         anchors.horizontalCenter: parent.horizontalCenter
@@ -99,11 +99,13 @@ Rectangle {
             Layout.preferredWidth: parent.width * 0.2
             spacing: 15
 
-            GridLayout {
-                columns: 1
-                rowSpacing: 15
-                columnSpacing: 10
-                Layout.fillWidth: true
+            ColumnLayout {
+                // columns: 1
+                // rowSpacing: 15
+                // columnSpacing: 10
+                // Layout.fillWidth: true
+                // Layout.horizontalCenter: true
+                Layout.alignment: Qt.AlignHCenter
 
                 Repeater {
                     model: buddhaList
@@ -158,7 +160,7 @@ Rectangle {
             spacing: 15
 
             // Label {
-            //     text: "虔诚礼佛，功德无量"
+            //     text:
             //     font.pixelSize: Math.max(16, parent.width * 0.02)
             //     color: "#666"
             //     Layout.alignment: Qt.AlignHCenter
@@ -175,25 +177,25 @@ Rectangle {
                 visible: true
             }
 
-            // Label {
-            //     id: payTimeLabel
-            //     text: "礼佛计时 00:00"
-            //     font.pixelSize: Math.max(16, parent.width * 0.018)
-            //     color: "#666"
-            //     Layout.alignment: Qt.AlignHCenter
-            //     Layout.topMargin: parent.height * 0.02
-            // }
+            Label {
+                id: payTimeLabel
+                text: "礼佛计时 00:00"
+                font.pixelSize: Math.max(16, parent.width * 0.018)
+                color: "#666"
+                Layout.alignment: Qt.AlignHCenter
+                Layout.topMargin: parent.height * 0.02
+            }
 
-            // Button {
-            //     text: "上传文件"
-            //     font.pixelSize: Math.max(12, parent.width * 0.012)
-            //     Layout.alignment: Qt.AlignHCenter
-            //     Layout.preferredWidth: Math.max(80, parent.width * 0.15)
-            //     Layout.preferredHeight: Math.max(30, parent.height * 0.04)
-            //     onClicked: {
-            //         fileDialog.open();
-            //     }
-            // }
+            Button {
+                text: "上传文件"
+                font.pixelSize: Math.max(12, parent.width * 0.012)
+                Layout.alignment: Qt.AlignHCenter
+                Layout.preferredWidth: Math.max(80, parent.width * 0.15)
+                Layout.preferredHeight: Math.max(30, parent.height * 0.04)
+                onClicked: {
+                    fileDialog.open();
+                }
+            }
         }
 
         // audio control and pay control
@@ -202,13 +204,29 @@ Rectangle {
             Layout.preferredWidth: parent.width * 0.3
             spacing: 15
 
+            Popup {
+                id: musicListPopup
+                padding: 10
+                z: 9999
+
+                Repeater {
+                    model: audioPlayer.getMusicList()
+
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        spacing: 10
+
+                        Text {
+                            text: modelData.name
+                        }
+                    }
+                }
+            }
+
             Rectangle {
                 Layout.preferredWidth: 0.8 * parent.width
                 Layout.fillHeight: true
-                // color: "#ffffff"
-                // border.width: 1
-                // border.color: "#000000"
-                // radius: 8
 
                 Rectangle {
                     id: audioPlayerController
@@ -220,8 +238,11 @@ Rectangle {
                     border.color: "#000000"
                     radius: 8
 
-                    property string currentMusicUrl: userConfig.getCurrentMusicUrl
+                    // property var currentMusicUrl: userConfig.getCurrentMusicUrl
+                    // get music list from resources
+                    property var musicList: audioPlayer.getMusicList()
 
+                    // music player controller
                     RowLayout {
                         anchors.fill: parent
                         anchors.margins: 10
@@ -245,77 +266,46 @@ Rectangle {
                             display: AbstractButton.IconOnly
                             icon.width: 24
                             icon.height: 24
-                            icon.source: audioPlayer.isPlaying ? "qrc:/Resources/resources/Image/button/stop.png"
-                                                               : "qrc:/Resources/resources/Image/button/start.png"
+                            icon.source: audioPlayer.isPlaying ? "qrc:/Resources/resources/Image/button/stop.png" : "qrc:/Resources/resources/Image/button/start.png"
 
                             background: Rectangle {
                                 color: parent.hovered ? "#f0f0f0" : "transparent"
                                 radius: 4
                             }
 
+                            onClicked:
+                            // if (audioPlayer.isPlaying) {
+                            //     audioPlayer.stop();
+                            // } else {
+                            //     // Play the default music
+                            //     audioPlayer.play("qrc:/Resources/resources/Music/南无阿弥陀佛.mp3");
+                            //     audioPlayerController.currentMusicName = "南无阿弥陀佛";
+                            // }
+                            {}
+                        }
+
+                        Button {
+                            id: listButton
+                            Layout.preferredWidth: 40
+                            Layout.preferredHeight: 40
+                            Layout.alignment: Qt.AlignVCenter
+                            display: AbstractButton.IconOnly
+                            icon.width: 24
+                            icon.height: 24
+                            icon.source: "qrc:/Resources/resources/Image/button/list.png"
+
                             onClicked: {
-                                if (audioPlayer.isPlaying) {
-                                    audioPlayer.stop();
-                                } else {
-                                    // Play the default music
-                                    audioPlayer.play("qrc:/Resources/resources/Music/南无阿弥陀佛.mp3");
-                                    audioPlayerController.currentMusicName = "南无阿弥陀佛";
-                                }
+                                musicListPopup.width = audioPlayerController.width;
+                                musicListPopup.height = 50;
+                                const p = audioPlayerController.mapToItem(null, 0, audioPlayerController.height);
+
+                                // musicListPopup.x = 933;
+                                // musicListPopup.y = 132.6 + 50;
+                                musicListPopup.open();
                             }
                         }
                     }
                 }
-
-                // RowLayout {
-                //     Layout.fillWidth: true
-                //     Layout.preferredWidth: 6
-                //     Layout.preferredHeight: parent.height
-
-                //     Rectangle {
-                //         Layout.fillWidth: true
-                //         Layout.preferredWidth: 0.6 * parent.width
-                //         Layout.preferredHeight: Math.max(30, parent.height * 0.06)
-                //         color: "#ffffff"
-                //         border.width: 1
-                //         border.color: "#000000"
-                //         radius: 8
-                //     }
-
-                //     ToolButton {
-                //         text: player.playbackState === MediaPlayer.PlayingState ? "⏸" : "▶"
-                //     }
-                // }
-
-                // Rectangle {
-                //     id: playButton
-                //     Layout.alignment: Qt.AlignHCenter
-                //     Layout.preferredWidth: 0.8 * parent.width
-                //     Layout.preferredHeight: 0.8 * parent.height
-                //     color: "#f0f0f0"
-                //     radius: 8
-                //     Shape {
-                //         anchors.centerIn: parent
-                //         width: 0.8 * parent.width
-                //         height: 0.8 * parent.height
-
-                //         ShapePath {
-                //             strokeColor: "transparent"
-                //             fillColor: "#666"
-                //             PathLine {
-                //                 x: 0
-                //                 y: 0
-                //             }
-                //             PathLine {
-                //                 x: 30
-                //                 y: 15
-                //             }
-                //             PathLine {
-                //                 x: 0
-                //                 y: 30
-                //             }
-                //         }
-                //     }
-                // }
             }
 
             Rectangle {
@@ -340,13 +330,10 @@ Rectangle {
                         Layout.alignment: Qt.AlignHCenter
                     }
 
-                    ListView {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
+                    Repeater {
                         model: musicList
-                        spacing: 2
 
-                        delegate: Button {
+                        Button {
                             width: ListView.view.width
                             height: 25
                             text: modelData.name
@@ -358,13 +345,34 @@ Rectangle {
                                 border.color: "#ddd"
                                 radius: 4
                             }
-
-                            onClicked: {
-                                audioPlayer.play(modelData.file);
-                                audioPlayerController.currentMusicName = modelData.name;
-                            }
                         }
                     }
+
+                    // ListView {
+                    //     Layout.fillWidth: true
+                    //     Layout.fillHeight: true
+                    //     model: musicList
+                    //     spacing: 2
+
+                    //     delegate: Button {
+                    //         width: ListView.view.width
+                    //         height: 25
+                    //         text: modelData.name
+                    //         font.pixelSize: Math.max(10, parent.width * 0.01)
+
+                    //         background: Rectangle {
+                    //             color: parent.hovered ? "#F7DAA1" : "#ffffff"
+                    //             border.width: 1
+                    //             border.color: "#ddd"
+                    //             radius: 4
+                    //         }
+
+                    //         onClicked: {
+                    //             audioPlayer.play(modelData.file);
+                    //             audioPlayerController.currentMusicName = modelData.name;
+                    //         }
+                    //     }
+                    // }
                 }
             }
 
@@ -483,7 +491,6 @@ Rectangle {
                     }
                 }
             }
-
             // ColumnLayout {
             //     id: audioPlayerControl
             //     Layout.fillWidth: parent

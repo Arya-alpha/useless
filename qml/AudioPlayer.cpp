@@ -74,10 +74,10 @@ QVariantList AudioPlayer::getMusicList()
     QVariantList musicList;
     // convert to QML urls
     for (const QFileInfo &info : list) {
-        QVariantMap musicInfo;
-        musicInfo["name"] = info.fileName();
-        musicInfo["path"] = "file:///" + info.absoluteFilePath();
-        musicList << musicInfo;
+        QVariantMap infoMap;
+        infoMap["name"] = info.fileName();
+        infoMap["path"] = "file:///" + info.absoluteFilePath();
+        musicList << infoMap;
     }
     return musicList;
 }

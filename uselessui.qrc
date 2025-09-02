@@ -1,17 +1,5 @@
 <RCC>
     <qresource prefix="/Resources">
-        <file>resources/Image/Buddha/default.png</file>
-        <file>resources/Image/Buddha/阿弥陀佛.png</file>
-        <file>resources/Image/Buddha/卢舍那佛.png</file>
-        <file>resources/Image/Buddha/弥勒佛.png</file>
-        <file>resources/Image/Buddha/毗卢遮那佛.png</file>
-        <file>resources/Image/Buddha/药师琉璃光如来.png</file>
-        <file>resources/Image/Bodhisattva/大势至菩萨.png</file>
-        <file>resources/Image/Bodhisattva/观世音菩萨.png</file>
-        <file>resources/Image/Bodhisattva/普贤菩萨.png</file>
-        <file>resources/Image/Bodhisattva/文殊师利菩萨.png</file>
-        <file>resources/Image/Bodhisattva/文殊师利菩萨1.png</file>
-        <file>resources/Image/Buddha/shakyamuni.png</file>
         <file>resources/Image/button/start.png</file>
         <file>resources/Image/button/stop.png</file>
         <file>resources/Image/Buddha3D/amitabha.png</file>
@@ -26,5 +14,6 @@
         <file>resources/Image/Buddha3D/shakyamuni.png</file>
         <file>resources/Music/南无阿弥陀佛.mp3</file>
         <file>resources/Music/释迦摩尼佛.mp3</file>
+        <file>resources/Image/button/list.png</file>
     </qresource>
 </RCC>
