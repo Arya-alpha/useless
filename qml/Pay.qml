@@ -204,25 +204,24 @@ Rectangle {
             Layout.preferredWidth: parent.width * 0.3
             spacing: 15
 
-            Popup {
-                id: musicListPopup
-                padding: 10
-                z: 9999
+            // Popup {
+            //     id: musicListPopup
+            //     padding: 10
 
-                Repeater {
-                    model: audioPlayer.getMusicList()
+            //     Repeater {
+            //         model: audioPlayer.getMusicList()
 
-                    ColumnLayout {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        spacing: 10
+            //         ColumnLayout {
+            //             Layout.fillWidth: true
+            //             Layout.fillHeight: true
+            //             spacing: 10
 
-                        Text {
-                            text: modelData.name
-                        }
-                    }
-                }
-            }
+            //             Text {
+            //                 text: modelData.name
+            //             }
+            //         }
+            //     }
+            // }
 
             Rectangle {
                 Layout.preferredWidth: 0.8 * parent.width
@@ -284,25 +283,62 @@ Rectangle {
                             {}
                         }
 
-                        Button {
-                            id: listButton
+                        // Button {
+                        //     id: listButton
+                        //     Layout.preferredWidth: 40
+                        //     Layout.preferredHeight: 40
+                        //     Layout.alignment: Qt.AlignVCenter
+                        //     display: AbstractButton.IconOnly
+                        //     icon.width: 24
+                        //     icon.height: 24
+                        //     icon.source: "qrc:/Resources/resources/Image/button/list.png"
+
+                        //     onClicked: {
+                        //         musicListPopup.width = audioPlayerController.width;
+                        //         musicListPopup.height = 50;
+                        //         const p = audioPlayerController.mapToItem(null, 0, audioPlayerController.height);
+
+                        //         // musicListPopup.x = 933;
+                        //         // musicListPopup.y = 132.6 + 50;
+                        //         musicListCombo.open();
+                        //     }
+                        // }
+
+                        ComboBox {
+                            id: musicListCombo
                             Layout.preferredWidth: 40
                             Layout.preferredHeight: 40
                             Layout.alignment: Qt.AlignVCenter
-                            display: AbstractButton.IconOnly
-                            icon.width: 24
-                            icon.height: 24
-                            icon.source: "qrc:/Resources/resources/Image/button/list.png"
+                            // width: 200
+                            model: musicList
+                            textRole: "name"
+                            contentItem: Item {}
+                            onActivated: index => console.log("选中：", model[index])
+                            // Item: {}
+                            background: Image {
+                                width: 24
+                                height: 24
 
-                            onClicked: {
-                                musicListPopup.width = audioPlayerController.width;
-                                musicListPopup.height = 50;
-                                const p = audioPlayerController.mapToItem(null, 0, audioPlayerController.height);
-
-                                // musicListPopup.x = 933;
-                                // musicListPopup.y = 132.6 + 50;
-                                musicListPopup.open();
+                                // anchors.fill: parent
+                                source: "qrc:/Resources/resources/Image/button/list.png"
+                                fillMode: Image.PreserveAspectFit
                             }
+
+                            indicator: null
+
+                            // Repeater {
+                            //     model: audioPlayer.getMusicList()
+
+                            //     ColumnLayout {
+                            //         Layout.fillWidth: true
+                            //         Layout.fillHeight: true
+                            //         spacing: 10
+
+                            //         Text {
+                            //             text: modelData.name
+                            //         }
+                            //     }
+                            // }
                         }
                     }
                 }
