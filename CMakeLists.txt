@@ -29,8 +29,8 @@ qt_add_qml_module(appuseless
         qml/config.cpp
     RESOURCES
         uselessui.qrc
-        SOURCES qml/AudioPlayer.h
-        SOURCES qml/AudioPlayer.cpp
+        SOURCES qml/audioplayer.h
+        SOURCES qml/audioplayer.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

@@ -1,10 +1,10 @@
-#include "AudioPlayer.h"
+#include "audioplayer.h"
 #include <QCoreApplication>
 #include <QDir>
 #include <QDebug>
 
 AudioPlayer::AudioPlayer(QObject *parent)
-    : QObject(parent), m_isPlaying(false), m_currentTrack("")
+    : QMediaPlayer(parent), m_isPlaying(false), m_currentTrack("")
 {
     m_player = new QMediaPlayer(this);
     m_audioOutput = new QAudioOutput(this);
@@ -25,36 +25,33 @@ void AudioPlayer::play(const QString &url)
         return;
     }
     
-    // Stop current playback if any
     if (m_isPlaying) {
-        stop();
+        pause();
     }
     
-    // Set the media source
-    QUrl mediaUrl;
-    if (url.startsWith("qrc:") || url.startsWith("file:") || url.startsWith("http")) {
-        mediaUrl = QUrl(url);
+    // 目前仅支持本地音乐文件播放
+    QUrl audioUrl;
+    if (url.startsWith("qrc:") || url.startsWith("file:")) {
+        audioUrl = QUrl(url);
     } else {
-        // Assume it's a local file path
-        mediaUrl = QUrl::fromLocalFile(url);
+        audioUrl = QUrl::fromLocalFile(url);
     }
     
-    m_player->setSource(mediaUrl);
+    m_player->setSource(audioUrl);
     m_currentTrack = url;
     emit currentTrackChanged();
     
-    // Start playing
     m_player->play();
     
-    qDebug() << "AudioPlayer::play() - Playing:" << mediaUrl.toString();
+    qDebug() << "AudioPlayer::play() - Playing:" << audioUrl.toString();
 }
 
-void AudioPlayer::stop()
+void AudioPlayer::pause()
 {
     if (m_player) {
         m_player->stop();
         m_currentTrack = "";
-        emit currentTrackChanged();
+        emit playingChanged(m_isPlaying);
     }
 }
 
@@ -131,10 +128,10 @@ void AudioPlayer::onMediaStatusChanged(QMediaPlayer::MediaStatus status)
     case QMediaPlayer::InvalidMedia:
         qWarning() << "Invalid media";
         break;
-    case QMediaPlayer::EndOfMedia:
-        qDebug() << "End of media reached";
-        stop();
-        break;
+    // case QMediaPlayer::EndOfMedia:
+    //     qDebug() << "End of media reached";
+        // stop();
+        // break;
     default:
         break;
     }

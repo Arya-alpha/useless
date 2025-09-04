@@ -2,7 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <qml/config.h>
-#include "qml/AudioPlayer.h"
+#include "qml/audioplayer.h"
 
 // #include "qml/Pay.h"
 

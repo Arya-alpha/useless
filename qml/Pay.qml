@@ -204,25 +204,6 @@ Rectangle {
             Layout.preferredWidth: parent.width * 0.3
             spacing: 15
 
-            // Popup {
-            //     id: musicListPopup
-            //     padding: 10
-
-            //     Repeater {
-            //         model: audioPlayer.getMusicList()
-
-            //         ColumnLayout {
-            //             Layout.fillWidth: true
-            //             Layout.fillHeight: true
-            //             spacing: 10
-
-            //             Text {
-            //                 text: modelData.name
-            //             }
-            //         }
-            //     }
-            // }
-
             Rectangle {
                 Layout.preferredWidth: 0.8 * parent.width
                 Layout.fillHeight: true
@@ -265,14 +246,17 @@ Rectangle {
                             display: AbstractButton.IconOnly
                             icon.width: 24
                             icon.height: 24
-                            icon.source: audioPlayer.isPlaying ? "qrc:/Resources/resources/Image/button/stop.png" : "qrc:/Resources/resources/Image/button/start.png"
+                            icon.source: audioPlayer.playing ? "qrc:/Resources/resources/Image/button/stop.png" : "qrc:/Resources/resources/Image/button/start.png"
 
                             background: Rectangle {
                                 color: parent.hovered ? "#f0f0f0" : "transparent"
                                 radius: 4
                             }
 
-                            onClicked:
+                            onClicked: {
+                                audioPlayer.playing ? audioPlayer.pause() : audioPlayer.play("qrc:/Resources/resources/Music/南无阿弥陀佛.mp3")
+                            }
+
                             // if (audioPlayer.isPlaying) {
                             //     audioPlayer.stop();
                             // } else {
@@ -280,7 +264,6 @@ Rectangle {
                             //     audioPlayer.play("qrc:/Resources/resources/Music/南无阿弥陀佛.mp3");
                             //     audioPlayerController.currentMusicName = "南无阿弥陀佛";
                             // }
-                            {}
                         }
 
                         // Button {
