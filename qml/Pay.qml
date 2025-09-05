@@ -8,146 +8,128 @@ Rectangle {
     color: "#ffffff"
     anchors.fill: parent
 
-    property var musicList: audioPlayer.getMusicList()
     property var buddhaList: [
         {
             "id": "shakyamuni",
             "path": "shakyamuni.png",
-            "name_cn": "释迦牟尼佛",
-            "name_en": "Shakyamuni Buddha",
+            "name": "释迦牟尼佛",
             "buddha_name": "南无本师释迦牟尼佛"
         },
         {
             "id": "amitabha",
             "path": "amitabha.png",
-            "name_cn": "阿弥陀佛",
-            "name_en": "Amitabha Buddha",
+            "name": "阿弥陀佛",
             "buddha_name": "南无阿弥陀佛"
         },
         {
             "id": "medicine",
             "path": "medicine.png",
-            "name_cn": "药师佛",
-            "name_en": "Bhaisajyaguru (Medicine Buddha)",
+            "name": "药师佛",
             "buddha_name": "南无消灾延寿药师佛"
         },
         {
             "id": "maitreya",
             "path": "maitreya.png",
-            "name_cn": "弥勒佛",
-            "name_en": "Maitreya Buddha",
+            "name": "弥勒佛",
             "buddha_name": "南无当来下生弥勒尊佛"
         },
         {
             "id": "guanyin",
             "path": "guanyin.png",
-            "name_cn": "观世音菩萨",
-            "name_en": "Avalokiteshvara (Guanyin Bodhisattva)",
+            "name": "观世音菩萨",
             "buddha_name": "南无大慈大悲观世音菩萨"
         },
         {
             "id": "ksitigarbha",
             "path": "ksitigarbha.png",
-            "name_cn": "地藏王菩萨",
-            "name_en": "Kṣitigarbha (Ksitigarbha Bodhisattva)",
+            "name": "地藏王菩萨",
             "buddha_name": "南无大愿地藏王菩萨"
         },
         {
             "id": "manjushri",
             "path": "manjushri.png",
-            "name_cn": "文殊菩萨",
-            "name_en": "Manjushri Bodhisattva",
+            "name": "文殊菩萨",
             "buddha_name": "南无大智文殊师利菩萨"
         },
         {
             "id": "samantabhadra",
             "path": "samantabhadra.png",
-            "name_cn": "普贤菩萨",
-            "name_en": "Samantabhadra Bodhisattva",
+            "name": "普贤菩萨",
             "buddha_name": "南无大行普贤菩萨"
         },
         {
             "id": "mahasthamaprapta",
             "path": "mahasthamaprapta.png",
-            "name_cn": "大势至菩萨",
-            "name_en": "Mahasthamaprapta Bodhisattva",
+            "name": "大势至菩萨",
             "buddha_name": "南无大势至菩萨"
         },
         {
             "id": "cundi",
             "path": "cundi.png",
-            "name_cn": "准提菩萨",
-            "name_en": "Cundi Bodhisattva",
+            "name": "准提菩萨",
             "buddha_name": "南无准提菩萨"
         }
     ]
 
     RowLayout {
-        width: 0.95 * parent.width
-        height: parent.height
-        anchors.horizontalCenter: parent.horizontalCenter
-        spacing: 10
+        anchors.fill: parent
+        spacing: 15
+        // width: parent.width
+        // height: parent.height
+        // anchors.horizontalCenter: parent.horizontalCenter
+        // anchors {
+        //     fill: parent
+        //     margins: 10
+        // }
 
-        anchors {
-            fill: parent
-            margins: 10
-        }
-
-        // choose buddha
         ColumnLayout {
-            Layout.fillWidth: true
-            Layout.preferredWidth: parent.width * 0.2
-            spacing: 15
-
-            ColumnLayout {
-                // columns: 1
-                // rowSpacing: 15
-                // columnSpacing: 10
-                // Layout.fillWidth: true
-                // Layout.horizontalCenter: true
+            id: buddhaListColumn
+            spacing: 10
+            // Layout.fillWidth: true
+            // Layout.fillHeight: true
+            // Layout.preferredWidth: parent.width * 0.2
+            
+            Repeater {
+                model: buddhaList
                 Layout.alignment: Qt.AlignHCenter
 
-                Repeater {
-                    model: buddhaList
+                Button {
+                    text: modelData.name
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: Math.max(30, 0.05 * parent.height)
+                    font.pixelSize: Math.max(10, 0.008 * parent.width)
+                    hoverEnabled: false
 
-                    Button {
-                        text: modelData.name_cn
-                        font.pixelSize: Math.max(10, parent.width * 0.008)
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: Math.max(30, parent.height * 0.04)
-                        hoverEnabled: false
+                    background: Rectangle {
+                        width: Math.max(16, 0.5 * parent.width)
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        border.width: 0
+                        radius: 8
+                        color: buddhaHover.hovered ? "#D4CAB6" : "#F7DAA1"
 
-                        background: Rectangle {
-                            width: Math.max(20, parent.width * 0.5)
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            border.width: 0
-                            radius: 6
-                            color: buddhaHover.hovered ? "#D4CAB6" : "#F7DAA1"
-
-                            Behavior on color {
-                                ColorAnimation {
-                                    duration: 150
-                                }
+                        Behavior on color {
+                            ColorAnimation {
+                                duration: 150
                             }
                         }
+                    }
 
-                        contentItem: Text {
-                            text: parent.text
-                            font.pixelSize: parent.font.pixelSize
-                            color: "white"
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            elide: Text.ElideRight
-                        }
+                    contentItem: Text {
+                        text: parent.text
+                        font.pixelSize: parent.font.pixelSize
+                        color: "white"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        elide: Text.ElideRight
+                    }
 
-                        HoverHandler {
-                            id: buddhaHover
-                            cursorShape: Qt.PointingHandCursor
-                        }
+                    HoverHandler {
+                        id: buddhaHover
+                        cursorShape: Qt.PointingHandCursor
+                    }
 
-                        onClicked: {
-                            image.source = "qrc:/Resources/resources/Image/Buddha3D/" + modelData.path;
-                        }
+                    onClicked: {
+                        image.source = "qrc:/Resources/resources/Image/Buddha3D/" + modelData.path;
                     }
                 }
             }
@@ -206,6 +188,7 @@ Rectangle {
 
             Rectangle {
                 Layout.preferredWidth: 0.8 * parent.width
+                Layout.preferredHeight: 0.2 * parent.height
                 Layout.fillHeight: true
 
                 Rectangle {
@@ -218,11 +201,10 @@ Rectangle {
                     border.color: "#000000"
                     radius: 8
 
-                    // property var currentMusicUrl: userConfig.getCurrentMusicUrl
-                    // get music list from resources
-                    property var musicList: audioPlayer.getMusicList()
+                    property var currentAudioUrl: userConfig.getCurrentMusicUrl
+                    property var audioList: audioPlayer.getMusicList()
 
-                    // music player controller
+                    // 音频控制器
                     RowLayout {
                         anchors.fill: parent
                         anchors.margins: 10
@@ -254,38 +236,9 @@ Rectangle {
                             }
 
                             onClicked: {
-                                audioPlayer.playing ? audioPlayer.pause() : audioPlayer.play("qrc:/Resources/resources/Music/南无阿弥陀佛.mp3")
+                                audioPlayer.playing ? audioPlayer.pause() : audioPlayer.play(currentMusicUrl);
                             }
-
-                            // if (audioPlayer.isPlaying) {
-                            //     audioPlayer.stop();
-                            // } else {
-                            //     // Play the default music
-                            //     audioPlayer.play("qrc:/Resources/resources/Music/南无阿弥陀佛.mp3");
-                            //     audioPlayerController.currentMusicName = "南无阿弥陀佛";
-                            // }
                         }
-
-                        // Button {
-                        //     id: listButton
-                        //     Layout.preferredWidth: 40
-                        //     Layout.preferredHeight: 40
-                        //     Layout.alignment: Qt.AlignVCenter
-                        //     display: AbstractButton.IconOnly
-                        //     icon.width: 24
-                        //     icon.height: 24
-                        //     icon.source: "qrc:/Resources/resources/Image/button/list.png"
-
-                        //     onClicked: {
-                        //         musicListPopup.width = audioPlayerController.width;
-                        //         musicListPopup.height = 50;
-                        //         const p = audioPlayerController.mapToItem(null, 0, audioPlayerController.height);
-
-                        //         // musicListPopup.x = 933;
-                        //         // musicListPopup.y = 132.6 + 50;
-                        //         musicListCombo.open();
-                        //     }
-                        // }
 
                         ComboBox {
                             id: musicListCombo
@@ -297,12 +250,9 @@ Rectangle {
                             textRole: "name"
                             contentItem: Item {}
                             onActivated: index => console.log("选中：", model[index])
-                            // Item: {}
                             background: Image {
                                 width: 24
                                 height: 24
-
-                                // anchors.fill: parent
                                 source: "qrc:/Resources/resources/Image/button/list.png"
                                 fillMode: Image.PreserveAspectFit
                             }
@@ -329,187 +279,197 @@ Rectangle {
 
             Rectangle {
                 Layout.preferredWidth: 0.8 * parent.width
-                Layout.preferredHeight: 0.2 * parent.height
+                Layout.preferredHeight: 0.8 * parent.height
                 color: "#ffffff"
                 border.width: 1
                 border.color: "#000000"
                 radius: 8
 
-                property var musicList: audioPlayer.getMusicList()
-
-                ColumnLayout {
+                GridLayout {
                     anchors.fill: parent
-                    anchors.margins: 10
-                    spacing: 5
+                    columns: 2
+                    rowSpacing: 15
+                    columnSpacing: 15
 
                     Text {
-                        text: "选择佛音"
+                        text: "祈愿主题"
+                        Layout.row: 0
+                        Layout.column: 0
                         font.pixelSize: Math.max(12, parent.width * 0.015)
-                        color: "#333"
-                        Layout.alignment: Qt.AlignHCenter
                     }
 
-                    Repeater {
-                        model: musicList
-
-                        Button {
-                            width: ListView.view.width
-                            height: 25
-                            text: modelData.name
-                            font.pixelSize: Math.max(10, parent.width * 0.01)
-
-                            background: Rectangle {
-                                color: parent.hovered ? "#F7DAA1" : "#ffffff"
-                                border.width: 1
-                                border.color: "#ddd"
-                                radius: 4
-                            }
-                        }
+                    Rectangle {
+                        Layout.row: 0
+                        Layout.column: 1
+                        // width: 100
+                        // height: 100
+                        color: "#ffffff"
+                        border.width: 1
+                        border.color: "#000000"
+                        radius: 8
                     }
 
-                    // ListView {
+                    // Rectangle {
+                    //     Layout.row: 1
+                    //     Layout.columnSpan: 2
+                    //     height: 100
                     //     Layout.fillWidth: true
-                    //     Layout.fillHeight: true
-                    //     model: musicList
-                    //     spacing: 2
-
-                    //     delegate: Button {
-                    //         width: ListView.view.width
-                    //         height: 25
-                    //         text: modelData.name
-                    //         font.pixelSize: Math.max(10, parent.width * 0.01)
-
-                    //         background: Rectangle {
-                    //             color: parent.hovered ? "#F7DAA1" : "#ffffff"
-                    //             border.width: 1
-                    //             border.color: "#ddd"
-                    //             radius: 4
-                    //         }
-
-                    //         onClicked: {
-                    //             audioPlayer.play(modelData.file);
-                    //             audioPlayerController.currentMusicName = modelData.name;
-                    //         }
-                    //     }
+                    //     color: "#ffffff"
+                    //     border.width: 1
+                    //     border.color: "#000000"
+                    //     radius: 8
                     // }
                 }
+
+                // property var musicList: audioPlayer.getMusicList()
+
+                // ColumnLayout {
+                //     anchors.fill: parent
+                //     anchors.margins: 10
+                //     spacing: 5
+
+                //     Text {
+                //         text: "选择佛音"
+                //         font.pixelSize: Math.max(12, parent.width * 0.015)
+                //         color: "#333"
+                //         Layout.alignment: Qt.AlignHCenter
+                //     }
+
+                //     Repeater {
+                //         model: musicList
+
+                //         Button {
+                //             width: ListView.view.width
+                //             height: 25
+                //             text: modelData.name
+                //             font.pixelSize: Math.max(10, parent.width * 0.01)
+
+                //             background: Rectangle {
+                //                 color: parent.hovered ? "#F7DAA1" : "#ffffff"
+                //                 border.width: 1
+                //                 border.color: "#ddd"
+                //                 radius: 4
+                //             }
+                //         }
+                //     }
+                // }
             }
 
-            Rectangle {
-                Layout.preferredWidth: 0.8 * parent.width
-                Layout.preferredHeight: 0.5 * parent.height
-                color: "#ffffff"
-                border.width: 1
-                border.color: "#000000"
-                radius: 8
+            // Rectangle {
+            //     Layout.preferredWidth: 0.8 * parent.width
+            //     Layout.preferredHeight: 0.5 * parent.height
+            //     color: "#ffffff"
+            //     border.width: 1
+            //     border.color: "#000000"
+            //     radius: 8
 
-                ColumnLayout {
-                    anchors.fill: parent
-                    anchors.margins: 15
-                    spacing: 10
+            //     ColumnLayout {
+            //         anchors.fill: parent
+            //         anchors.margins: 15
+            //         spacing: 10
 
-                    Text {
-                        text: "音量控制"
-                        font.pixelSize: Math.max(12, parent.width * 0.015)
-                        color: "#333"
-                        Layout.alignment: Qt.AlignHCenter
-                    }
+            //         Text {
+            //             text: "音量控制"
+            //             font.pixelSize: Math.max(12, parent.width * 0.015)
+            //             color: "#333"
+            //             Layout.alignment: Qt.AlignHCenter
+            //         }
 
-                    Slider {
-                        id: volumeSlider
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 30
-                        from: 0.0
-                        to: 1.0
-                        value: 0.7
-                        stepSize: 0.1
+            //         Slider {
+            //             id: volumeSlider
+            //             Layout.fillWidth: true
+            //             Layout.preferredHeight: 30
+            //             from: 0.0
+            //             to: 1.0
+            //             value: 0.7
+            //             stepSize: 0.1
 
-                        onValueChanged: {
-                            audioPlayer.setVolume(value);
-                        }
+            //             onValueChanged: {
+            //                 audioPlayer.setVolume(value);
+            //             }
 
-                        background: Rectangle {
-                            x: volumeSlider.leftPadding
-                            y: volumeSlider.topPadding + volumeSlider.availableHeight / 2 - height / 2
-                            implicitWidth: 200
-                            implicitHeight: 4
-                            width: volumeSlider.availableWidth
-                            height: implicitHeight
-                            radius: 2
-                            color: "#bdbebf"
+            //             background: Rectangle {
+            //                 x: volumeSlider.leftPadding
+            //                 y: volumeSlider.topPadding + volumeSlider.availableHeight / 2 - height / 2
+            //                 implicitWidth: 200
+            //                 implicitHeight: 4
+            //                 width: volumeSlider.availableWidth
+            //                 height: implicitHeight
+            //                 radius: 2
+            //                 color: "#bdbebf"
 
-                            Rectangle {
-                                width: volumeSlider.visualPosition * parent.width
-                                height: parent.height
-                                color: "#F7DAA1"
-                                radius: 2
-                            }
-                        }
+            //                 Rectangle {
+            //                     width: volumeSlider.visualPosition * parent.width
+            //                     height: parent.height
+            //                     color: "#F7DAA1"
+            //                     radius: 2
+            //                 }
+            //             }
 
-                        handle: Rectangle {
-                            x: volumeSlider.leftPadding + volumeSlider.visualPosition * (volumeSlider.availableWidth - width)
-                            y: volumeSlider.topPadding + volumeSlider.availableHeight / 2 - height / 2
-                            implicitWidth: 20
-                            implicitHeight: 20
-                            radius: 10
-                            color: volumeSlider.pressed ? "#D4CAB6" : "#F7DAA1"
-                            border.color: "#bdbebf"
-                        }
-                    }
+            //             handle: Rectangle {
+            //                 x: volumeSlider.leftPadding + volumeSlider.visualPosition * (volumeSlider.availableWidth - width)
+            //                 y: volumeSlider.topPadding + volumeSlider.availableHeight / 2 - height / 2
+            //                 implicitWidth: 20
+            //                 implicitHeight: 20
+            //                 radius: 10
+            //                 color: volumeSlider.pressed ? "#D4CAB6" : "#F7DAA1"
+            //                 border.color: "#bdbebf"
+            //             }
+            //         }
 
-                    Text {
-                        text: "音量: " + Math.round(volumeSlider.value * 100) + "%"
-                        font.pixelSize: Math.max(10, parent.width * 0.012)
-                        color: "#666"
-                        Layout.alignment: Qt.AlignHCenter
-                    }
+            //         Text {
+            //             text: "音量: " + Math.round(volumeSlider.value * 100) + "%"
+            //             font.pixelSize: Math.max(10, parent.width * 0.012)
+            //             color: "#666"
+            //             Layout.alignment: Qt.AlignHCenter
+            //         }
 
-                    // Additional playback controls
-                    RowLayout {
-                        Layout.fillWidth: true
-                        Layout.alignment: Qt.AlignHCenter
-                        spacing: 10
+            //         // Additional playback controls
+            //         RowLayout {
+            //             Layout.fillWidth: true
+            //             Layout.alignment: Qt.AlignHCenter
+            //             spacing: 10
 
-                        Button {
-                            text: "暂停"
-                            enabled: audioPlayer.isPlaying
-                            font.pixelSize: Math.max(10, parent.width * 0.01)
-                            Layout.preferredWidth: 60
-                            Layout.preferredHeight: 30
+            //             Button {
+            //                 text: "暂停"
+            //                 enabled: audioPlayer.isPlaying
+            //                 font.pixelSize: Math.max(10, parent.width * 0.01)
+            //                 Layout.preferredWidth: 60
+            //                 Layout.preferredHeight: 30
 
-                            background: Rectangle {
-                                color: parent.enabled ? (parent.hovered ? "#D4CAB6" : "#F7DAA1") : "#f0f0f0"
-                                border.width: 1
-                                border.color: "#ddd"
-                                radius: 4
-                            }
+            //                 background: Rectangle {
+            //                     color: parent.enabled ? (parent.hovered ? "#D4CAB6" : "#F7DAA1") : "#f0f0f0"
+            //                     border.width: 1
+            //                     border.color: "#ddd"
+            //                     radius: 4
+            //                 }
 
-                            onClicked: {
-                                audioPlayer.pause();
-                            }
-                        }
+            //                 onClicked: {
+            //                     audioPlayer.pause();
+            //                 }
+            //             }
 
-                        Button {
-                            text: "停止"
-                            enabled: audioPlayer.isPlaying
-                            font.pixelSize: Math.max(10, parent.width * 0.01)
-                            Layout.preferredWidth: 60
-                            Layout.preferredHeight: 30
+            //             Button {
+            //                 text: "停止"
+            //                 enabled: audioPlayer.isPlaying
+            //                 font.pixelSize: Math.max(10, parent.width * 0.01)
+            //                 Layout.preferredWidth: 60
+            //                 Layout.preferredHeight: 30
 
-                            background: Rectangle {
-                                color: parent.enabled ? (parent.hovered ? "#D4CAB6" : "#F7DAA1") : "#f0f0f0"
-                                border.width: 1
-                                border.color: "#ddd"
-                                radius: 4
-                            }
+            //                 background: Rectangle {
+            //                     color: parent.enabled ? (parent.hovered ? "#D4CAB6" : "#F7DAA1") : "#f0f0f0"
+            //                     border.width: 1
+            //                     border.color: "#ddd"
+            //                     radius: 4
+            //                 }
 
-                            onClicked: {
-                                audioPlayer.stop();
-                            }
-                        }
-                    }
-                }
-            }
+            //                 onClicked: {
+            //                     audioPlayer.stop();
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
             // ColumnLayout {
             //     id: audioPlayerControl
             //     Layout.fillWidth: parent

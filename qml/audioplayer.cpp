@@ -25,7 +25,7 @@ void AudioPlayer::play(const QString &url)
         return;
     }
     
-    if (m_isPlaying) {
+    if (isPlaying()) {
         pause();
     }
     
@@ -39,7 +39,7 @@ void AudioPlayer::play(const QString &url)
     
     m_player->setSource(audioUrl);
     m_currentTrack = url;
-    emit currentTrackChanged();
+    emit playingChanged(m_isPlaying);
     
     m_player->play();
     
