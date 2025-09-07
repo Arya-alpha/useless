@@ -5,564 +5,301 @@ import QtQuick.Layouts
 import QtQuick.Shapes
 
 Rectangle {
+    id: content
     color: "#ffffff"
     anchors.fill: parent
 
+    property var currentBuddha: buddhaList[0]
     property var buddhaList: [
         {
             "id": "shakyamuni",
             "path": "shakyamuni.png",
             "name": "释迦牟尼佛",
-            "buddha_name": "南无本师释迦牟尼佛"
+            "total": "南无本师释迦牟尼佛"
         },
         {
             "id": "amitabha",
             "path": "amitabha.png",
             "name": "阿弥陀佛",
-            "buddha_name": "南无阿弥陀佛"
+            "total": "南无阿弥陀佛"
         },
         {
             "id": "medicine",
             "path": "medicine.png",
             "name": "药师佛",
-            "buddha_name": "南无消灾延寿药师佛"
+            "total": "南无消灾延寿药师佛"
         },
         {
             "id": "maitreya",
             "path": "maitreya.png",
             "name": "弥勒佛",
-            "buddha_name": "南无当来下生弥勒尊佛"
+            "total": "南无当来下生弥勒尊佛"
         },
         {
             "id": "guanyin",
             "path": "guanyin.png",
             "name": "观世音菩萨",
-            "buddha_name": "南无大慈大悲观世音菩萨"
+            "total": "南无大慈大悲观世音菩萨"
         },
         {
             "id": "ksitigarbha",
             "path": "ksitigarbha.png",
             "name": "地藏王菩萨",
-            "buddha_name": "南无大愿地藏王菩萨"
+            "total": "南无大愿地藏王菩萨"
         },
         {
             "id": "manjushri",
             "path": "manjushri.png",
             "name": "文殊菩萨",
-            "buddha_name": "南无大智文殊师利菩萨"
+            "total": "南无大智文殊师利菩萨"
         },
         {
             "id": "samantabhadra",
             "path": "samantabhadra.png",
             "name": "普贤菩萨",
-            "buddha_name": "南无大行普贤菩萨"
+            "total": "南无大行普贤菩萨"
         },
         {
             "id": "mahasthamaprapta",
             "path": "mahasthamaprapta.png",
             "name": "大势至菩萨",
-            "buddha_name": "南无大势至菩萨"
+            "total": "南无大势至菩萨"
         },
         {
             "id": "cundi",
             "path": "cundi.png",
             "name": "准提菩萨",
-            "buddha_name": "南无准提菩萨"
+            "total": "南无准提菩萨"
         }
     ]
 
     RowLayout {
         anchors.fill: parent
-        spacing: 15
-        // width: parent.width
-        // height: parent.height
-        // anchors.horizontalCenter: parent.horizontalCenter
-        // anchors {
-        //     fill: parent
-        //     margins: 10
-        // }
+        spacing: 10
 
-        ColumnLayout {
-            id: buddhaListColumn
-            spacing: 10
-            // Layout.fillWidth: true
-            // Layout.fillHeight: true
-            // Layout.preferredWidth: parent.width * 0.2
-            
-            Repeater {
-                model: buddhaList
-                Layout.alignment: Qt.AlignHCenter
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.preferredWidth: 0.15 * content.width
 
-                Button {
-                    text: modelData.name
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: Math.max(30, 0.05 * parent.height)
-                    font.pixelSize: Math.max(10, 0.008 * parent.width)
-                    hoverEnabled: false
+            ColumnLayout {
+                id: buddhaListColumn
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                anchors.horizontalCenter: parent.horizontalCenter
+                spacing: 6
 
-                    background: Rectangle {
-                        width: Math.max(16, 0.5 * parent.width)
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        border.width: 0
+                Repeater {
+                    model: buddhaList
+
+                    delegate: Button {
+                        text: modelData.name
+
+                        Layout.preferredWidth: 125
+                        Layout.preferredHeight: 40
+                        Layout.topMargin: index === 0 ? 20 : 0
+                        font.pixelSize: 12
+                        hoverEnabled: false
+
+                        background: Rectangle {
+                            anchors.fill: parent
+                            anchors.margins: 6
+                            border.width: 0
+                            radius: 8
+                            color: buddhaHover.hovered ? "#D4CAB6" : "#F7DAA1"
+
+                            Behavior on color {
+                                ColorAnimation {
+                                    duration: 150
+                                }
+                            }
+                        }
+
+                        HoverHandler {
+                            id: buddhaHover
+                            cursorShape: Qt.PointingHandCursor
+                        }
+
+                        onClicked: {
+                            image.source = "qrc:/Resources/resources/Image/Buddha3D/" + modelData.path;
+                        }
+                    }
+                }
+            }
+        }
+
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.preferredWidth: 0.65 * content.width
+
+            ColumnLayout {
+                id: buddhaImage
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                anchors.horizontalCenter: parent.horizontalCenter
+                spacing: 6
+
+                Text {
+                    text: currentBuddha.total
+                    Layout.alignment: Qt.AlignHCenter
+                    Layout.topMargin: 20
+                    font.pixelSize: 20
+                    color: "#666"
+                }
+
+                Image {
+                    id: image
+                    Layout.preferredHeight: 0.8 * content.height
+                    fillMode: Image.PreserveAspectFit
+                    Layout.alignment: Qt.AlignHCenter
+                    source: "qrc:/Resources/resources/Image/Buddha3D/" + currentBuddha.path;
+                    visible: true
+                }
+
+                // Label {
+                //     id: payTimeLabel
+                //     text: "礼佛计时 00:00"
+                //     font.pixelSize: Math.max(16, parent.width * 0.018)
+                //     color: "#666"
+                //     Layout.alignment: Qt.AlignHCenter
+                //     Layout.topMargin: parent.height * 0.02
+                // }
+
+                // Button {
+                //     text: "上传文件"
+                //     font.pixelSize: Math.max(12, parent.width * 0.012)
+                //     Layout.alignment: Qt.AlignHCenter
+                //     Layout.preferredWidth: Math.max(80, parent.width * 0.15)
+                //     Layout.preferredHeight: Math.max(30, parent.height * 0.04)
+                //     onClicked: {
+                //         fileDialog.open();
+                //     }
+                // }
+            }
+        }
+
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.preferredWidth: 0.2 * content.width
+
+            ColumnLayout {
+                Layout.fillWidth: true
+                anchors.horizontalCenter: parent.horizontalCenter
+                spacing: 6
+
+                Rectangle {
+                    Layout.preferredWidth: 0.8 * 0.2 * content.width
+                    Layout.preferredHeight: 0.2 * content.height
+                    Layout.fillHeight: true
+
+                    Rectangle {
+                        id: audioPlayerController
+                        anchors.centerIn: parent
+                        width: parent.width
+                        height: 0.2 * parent.height
+                        color: "#ffffff"
+                        border.width: 1
+                        border.color: "#000000"
                         radius: 8
-                        color: buddhaHover.hovered ? "#D4CAB6" : "#F7DAA1"
 
-                        Behavior on color {
-                            ColorAnimation {
-                                duration: 150
+                        property var currentAudioUrl: userConfig.getCurrentMusicUrl
+                        property var audioList: audioPlayer.getMusicList()
+
+                        // 音频控制器
+                        RowLayout {
+                            anchors.fill: parent
+                            anchors.margins: 10
+                            spacing: 10
+
+                            Text {
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                                Layout.alignment: Qt.AlignVCenter
+                                text: audioPlayer.isPlaying ? ("当前正在播放《" + audioPlayerController.currentMusicName + "》") : "当前暂无正在播放的音乐"
+                                color: "#000000"
+                                font.pixelSize: Math.max(12, parent.width * 0.01)
+                                wrapMode: Text.WordWrap
+                            }
+
+                            Button {
+                                id: audioPlayButton
+                                Layout.preferredWidth: 40
+                                Layout.preferredHeight: 40
+                                Layout.alignment: Qt.AlignVCenter
+                                display: AbstractButton.IconOnly
+                                icon.width: 24
+                                icon.height: 24
+                                icon.source: audioPlayer.playing ? "qrc:/Resources/resources/Image/button/stop.png" : "qrc:/Resources/resources/Image/button/start.png"
+
+                                background: Rectangle {
+                                    color: parent.hovered ? "#f0f0f0" : "transparent"
+                                    radius: 4
+                                }
+
+                                onClicked: {
+                                    audioPlayer.playing ? audioPlayer.pause() : audioPlayer.play(currentMusicUrl);
+                                }
+                            }
+
+                            ComboBox {
+                                id: musicListCombo
+                                Layout.preferredWidth: 40
+                                Layout.preferredHeight: 40
+                                Layout.alignment: Qt.AlignVCenter
+                                // width: 200
+                                model: musicList
+                                textRole: "name"
+                                contentItem: Item {}
+                                onActivated: index => console.log("选中：", model[index])
+                                background: Image {
+                                    width: 24
+                                    height: 24
+                                    source: "qrc:/Resources/resources/Image/button/list.png"
+                                    fillMode: Image.PreserveAspectFit
+                                }
+
+                                indicator: null
                             }
                         }
                     }
-
-                    contentItem: Text {
-                        text: parent.text
-                        font.pixelSize: parent.font.pixelSize
-                        color: "white"
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                        elide: Text.ElideRight
-                    }
-
-                    HoverHandler {
-                        id: buddhaHover
-                        cursorShape: Qt.PointingHandCursor
-                    }
-
-                    onClicked: {
-                        image.source = "qrc:/Resources/resources/Image/Buddha3D/" + modelData.path;
-                    }
                 }
-            }
-        }
-
-        // buddha 3D image
-        ColumnLayout {
-            Layout.fillWidth: true
-            Layout.preferredWidth: parent.width * 0.5
-            spacing: 15
-
-            // Label {
-            //     text:
-            //     font.pixelSize: Math.max(16, parent.width * 0.02)
-            //     color: "#666"
-            //     Layout.alignment: Qt.AlignHCenter
-            //     Layout.topMargin: parent.height * 0.03
-            // }
-
-            Image {
-                id: image
-                Layout.alignment: Qt.AlignHCenter
-                Layout.preferredWidth: Math.min(parent.width, 0.8 * parent.height)
-                Layout.preferredHeight: Layout.preferredWidth * 1.2
-                source: "qrc:/Resources/resources/Image/Buddha3D/shakyamuni.png"
-                fillMode: Image.PreserveAspectFit
-                visible: true
-            }
-
-            Label {
-                id: payTimeLabel
-                text: "礼佛计时 00:00"
-                font.pixelSize: Math.max(16, parent.width * 0.018)
-                color: "#666"
-                Layout.alignment: Qt.AlignHCenter
-                Layout.topMargin: parent.height * 0.02
-            }
-
-            Button {
-                text: "上传文件"
-                font.pixelSize: Math.max(12, parent.width * 0.012)
-                Layout.alignment: Qt.AlignHCenter
-                Layout.preferredWidth: Math.max(80, parent.width * 0.15)
-                Layout.preferredHeight: Math.max(30, parent.height * 0.04)
-                onClicked: {
-                    fileDialog.open();
-                }
-            }
-        }
-
-        // audio control and pay control
-        ColumnLayout {
-            Layout.fillWidth: true
-            Layout.preferredWidth: parent.width * 0.3
-            spacing: 15
-
-            Rectangle {
-                Layout.preferredWidth: 0.8 * parent.width
-                Layout.preferredHeight: 0.2 * parent.height
-                Layout.fillHeight: true
 
                 Rectangle {
-                    id: audioPlayerController
-                    anchors.centerIn: parent
-                    width: parent.width
-                    height: 0.2 * parent.height
+                    Layout.preferredWidth: 0.8 * 0.2 * content.width
+                    Layout.preferredHeight: 0.8 * content.height
                     color: "#ffffff"
                     border.width: 1
                     border.color: "#000000"
                     radius: 8
 
-                    property var currentAudioUrl: userConfig.getCurrentMusicUrl
-                    property var audioList: audioPlayer.getMusicList()
-
-                    // 音频控制器
-                    RowLayout {
+                    GridLayout {
                         anchors.fill: parent
-                        anchors.margins: 10
-                        spacing: 10
+                        columns: 2
+                        rowSpacing: 15
+                        columnSpacing: 15
 
                         Text {
-                            Layout.fillWidth: true
-                            Layout.fillHeight: true
-                            Layout.alignment: Qt.AlignVCenter
-                            text: audioPlayer.isPlaying ? ("当前正在播放《" + audioPlayerController.currentMusicName + "》") : "当前暂无正在播放的音乐"
-                            color: "#000000"
-                            font.pixelSize: Math.max(12, parent.width * 0.01)
-                            wrapMode: Text.WordWrap
+                            text: "祈愿主题"
+                            Layout.row: 0
+                            Layout.column: 0
+                            font.pixelSize: Math.max(12, parent.width * 0.015)
                         }
 
-                        Button {
-                            id: audioPlayButton
-                            Layout.preferredWidth: 40
-                            Layout.preferredHeight: 40
-                            Layout.alignment: Qt.AlignVCenter
-                            display: AbstractButton.IconOnly
-                            icon.width: 24
-                            icon.height: 24
-                            icon.source: audioPlayer.playing ? "qrc:/Resources/resources/Image/button/stop.png" : "qrc:/Resources/resources/Image/button/start.png"
-
-                            background: Rectangle {
-                                color: parent.hovered ? "#f0f0f0" : "transparent"
-                                radius: 4
-                            }
-
-                            onClicked: {
-                                audioPlayer.playing ? audioPlayer.pause() : audioPlayer.play(currentMusicUrl);
-                            }
-                        }
-
-                        ComboBox {
-                            id: musicListCombo
-                            Layout.preferredWidth: 40
-                            Layout.preferredHeight: 40
-                            Layout.alignment: Qt.AlignVCenter
-                            // width: 200
-                            model: musicList
-                            textRole: "name"
-                            contentItem: Item {}
-                            onActivated: index => console.log("选中：", model[index])
-                            background: Image {
-                                width: 24
-                                height: 24
-                                source: "qrc:/Resources/resources/Image/button/list.png"
-                                fillMode: Image.PreserveAspectFit
-                            }
-
-                            indicator: null
-
-                            // Repeater {
-                            //     model: audioPlayer.getMusicList()
-
-                            //     ColumnLayout {
-                            //         Layout.fillWidth: true
-                            //         Layout.fillHeight: true
-                            //         spacing: 10
-
-                            //         Text {
-                            //             text: modelData.name
-                            //         }
-                            //     }
-                            // }
+                        Rectangle {
+                            Layout.row: 0
+                            Layout.column: 1
+                            width: 100
+                            height: 100
+                            color: "#ffffff"
+                            border.width: 1
+                            border.color: "#000000"
+                            radius: 8
                         }
                     }
                 }
             }
-
-            Rectangle {
-                Layout.preferredWidth: 0.8 * parent.width
-                Layout.preferredHeight: 0.8 * parent.height
-                color: "#ffffff"
-                border.width: 1
-                border.color: "#000000"
-                radius: 8
-
-                GridLayout {
-                    anchors.fill: parent
-                    columns: 2
-                    rowSpacing: 15
-                    columnSpacing: 15
-
-                    Text {
-                        text: "祈愿主题"
-                        Layout.row: 0
-                        Layout.column: 0
-                        font.pixelSize: Math.max(12, parent.width * 0.015)
-                    }
-
-                    Rectangle {
-                        Layout.row: 0
-                        Layout.column: 1
-                        // width: 100
-                        // height: 100
-                        color: "#ffffff"
-                        border.width: 1
-                        border.color: "#000000"
-                        radius: 8
-                    }
-
-                    // Rectangle {
-                    //     Layout.row: 1
-                    //     Layout.columnSpan: 2
-                    //     height: 100
-                    //     Layout.fillWidth: true
-                    //     color: "#ffffff"
-                    //     border.width: 1
-                    //     border.color: "#000000"
-                    //     radius: 8
-                    // }
-                }
-
-                // property var musicList: audioPlayer.getMusicList()
-
-                // ColumnLayout {
-                //     anchors.fill: parent
-                //     anchors.margins: 10
-                //     spacing: 5
-
-                //     Text {
-                //         text: "选择佛音"
-                //         font.pixelSize: Math.max(12, parent.width * 0.015)
-                //         color: "#333"
-                //         Layout.alignment: Qt.AlignHCenter
-                //     }
-
-                //     Repeater {
-                //         model: musicList
-
-                //         Button {
-                //             width: ListView.view.width
-                //             height: 25
-                //             text: modelData.name
-                //             font.pixelSize: Math.max(10, parent.width * 0.01)
-
-                //             background: Rectangle {
-                //                 color: parent.hovered ? "#F7DAA1" : "#ffffff"
-                //                 border.width: 1
-                //                 border.color: "#ddd"
-                //                 radius: 4
-                //             }
-                //         }
-                //     }
-                // }
-            }
-
-            // Rectangle {
-            //     Layout.preferredWidth: 0.8 * parent.width
-            //     Layout.preferredHeight: 0.5 * parent.height
-            //     color: "#ffffff"
-            //     border.width: 1
-            //     border.color: "#000000"
-            //     radius: 8
-
-            //     ColumnLayout {
-            //         anchors.fill: parent
-            //         anchors.margins: 15
-            //         spacing: 10
-
-            //         Text {
-            //             text: "音量控制"
-            //             font.pixelSize: Math.max(12, parent.width * 0.015)
-            //             color: "#333"
-            //             Layout.alignment: Qt.AlignHCenter
-            //         }
-
-            //         Slider {
-            //             id: volumeSlider
-            //             Layout.fillWidth: true
-            //             Layout.preferredHeight: 30
-            //             from: 0.0
-            //             to: 1.0
-            //             value: 0.7
-            //             stepSize: 0.1
-
-            //             onValueChanged: {
-            //                 audioPlayer.setVolume(value);
-            //             }
-
-            //             background: Rectangle {
-            //                 x: volumeSlider.leftPadding
-            //                 y: volumeSlider.topPadding + volumeSlider.availableHeight / 2 - height / 2
-            //                 implicitWidth: 200
-            //                 implicitHeight: 4
-            //                 width: volumeSlider.availableWidth
-            //                 height: implicitHeight
-            //                 radius: 2
-            //                 color: "#bdbebf"
-
-            //                 Rectangle {
-            //                     width: volumeSlider.visualPosition * parent.width
-            //                     height: parent.height
-            //                     color: "#F7DAA1"
-            //                     radius: 2
-            //                 }
-            //             }
-
-            //             handle: Rectangle {
-            //                 x: volumeSlider.leftPadding + volumeSlider.visualPosition * (volumeSlider.availableWidth - width)
-            //                 y: volumeSlider.topPadding + volumeSlider.availableHeight / 2 - height / 2
-            //                 implicitWidth: 20
-            //                 implicitHeight: 20
-            //                 radius: 10
-            //                 color: volumeSlider.pressed ? "#D4CAB6" : "#F7DAA1"
-            //                 border.color: "#bdbebf"
-            //             }
-            //         }
-
-            //         Text {
-            //             text: "音量: " + Math.round(volumeSlider.value * 100) + "%"
-            //             font.pixelSize: Math.max(10, parent.width * 0.012)
-            //             color: "#666"
-            //             Layout.alignment: Qt.AlignHCenter
-            //         }
-
-            //         // Additional playback controls
-            //         RowLayout {
-            //             Layout.fillWidth: true
-            //             Layout.alignment: Qt.AlignHCenter
-            //             spacing: 10
-
-            //             Button {
-            //                 text: "暂停"
-            //                 enabled: audioPlayer.isPlaying
-            //                 font.pixelSize: Math.max(10, parent.width * 0.01)
-            //                 Layout.preferredWidth: 60
-            //                 Layout.preferredHeight: 30
-
-            //                 background: Rectangle {
-            //                     color: parent.enabled ? (parent.hovered ? "#D4CAB6" : "#F7DAA1") : "#f0f0f0"
-            //                     border.width: 1
-            //                     border.color: "#ddd"
-            //                     radius: 4
-            //                 }
-
-            //                 onClicked: {
-            //                     audioPlayer.pause();
-            //                 }
-            //             }
-
-            //             Button {
-            //                 text: "停止"
-            //                 enabled: audioPlayer.isPlaying
-            //                 font.pixelSize: Math.max(10, parent.width * 0.01)
-            //                 Layout.preferredWidth: 60
-            //                 Layout.preferredHeight: 30
-
-            //                 background: Rectangle {
-            //                     color: parent.enabled ? (parent.hovered ? "#D4CAB6" : "#F7DAA1") : "#f0f0f0"
-            //                     border.width: 1
-            //                     border.color: "#ddd"
-            //                     radius: 4
-            //                 }
-
-            //                 onClicked: {
-            //                     audioPlayer.stop();
-            //                 }
-            //             }
-            //         }
-            //     }
-            // }
-            // ColumnLayout {
-            //     id: audioPlayerControl
-            //     Layout.fillWidth: parent
-            //     Layout.preferredHeight: 0.3 * parent.height
-            //     spacing: 10
-            // }
-
-            // Label {
-            //     text: "礼佛控制"
-            //     font.pixelSize: Math.max(18, parent.width * 0.025)
-            //     color: "#333"
-            //     Layout.alignment: Qt.AlignHCenter
-            //     Layout.topMargin: parent.height * 0.03
-            // }
-
-            // Button {
-            //     id: payButton
-            //     text: "开始礼佛"
-            //     font.pixelSize: Math.max(14, parent.width * 0.015)
-            //     Layout.fillWidth: true
-            //     Layout.preferredHeight: Math.max(40, parent.height * 0.06)
-            //     hoverEnabled: false
-            //     background: Rectangle {
-            //         id: payButtonBg
-            //         border.width: payButtonHoverHandler.hovered ? 1 : 0
-            //         border.color: payButtonHoverHandler.hovered ? "#968e8c" : "#ffffff"
-            //         radius: 8
-            //         color: payTime.running ? (payButtonHoverHandler.hovered ? "#FF5722" : "#f44336") : (payButtonHoverHandler.hovered ? "#66BB6A" : "#4CAF50")
-            //     }
-
-            //     HoverHandler {
-            //         id: payButtonHoverHandler
-            //         cursorShape: Qt.PointingHandCursor
-            //     }
-
-            //     onClicked: {
-            //         if (payTime.running) {
-            //             payTime.stop();
-            //             payButton.text = "开始礼佛";
-            //             payButtonBg.color = "#4CAF50";
-            //         } else {
-            //             payTime.start();
-            //             payButton.text = "结束礼佛";
-            //             payButtonBg.color = "#f44336";
-            //         }
-            //     }
-            // }
-
-            // Button {
-            //     id: resetButton
-            //     text: "重置计时"
-            //     font.pixelSize: Math.max(14, parent.width * 0.015)
-            //     Layout.fillWidth: true
-            //     Layout.preferredHeight: Math.max(40, parent.height * 0.06)
-            //     background: Rectangle {
-            //         radius: hh.hovered ? 20 : 12
-            //         color: hh.hovered ? "#FF8A65" : "#FF7043"
-            //         border.color: hh.hovered ? "#BF360C" : "#D84315"
-            //         border.width: 1
-
-            //         Behavior on color {
-            //             ColorAnimation {
-            //                 duration: 140
-            //             }
-            //         }
-            //         Behavior on radius {
-            //             NumberAnimation {
-            //                 duration: 140
-            //             }
-            //         }
-            //     }
-
-            // contentItem: Text {
-            //     text: resetButton.text
-            //     font.pixelSize: resetButton.font.pixelSize
-            //     color: "white"
-            //     horizontalAlignment: Text.AlignHCenter
-            //     verticalAlignment: Text.AlignVCenter
-            //     elide: Text.ElideRight
-            // }
-
-            // HoverHandler {
-            //     id: hh
-            //     cursorShape: Qt.PointingHandCursor
-            // }
-
-            // onClicked: {
-            //     payTime.stop();
-            //     payButton.text = "开始礼佛";
-            //     payButtonBg.color = "#4CAF50";
-            //     payTimeLabel.text = "礼佛计时 00:00";
-            // }
-            // }
         }
     }
 
