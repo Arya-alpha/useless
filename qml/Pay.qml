@@ -72,6 +72,8 @@ Rectangle {
             "total": "南无准提菩萨"
         }
     ]
+    property var currentAudioUrl: userConfig.getCurrentMusicUrl
+    property var audioList: audioPlayer.getMusicList()
 
     RowLayout {
         anchors.fill: parent
@@ -153,29 +155,9 @@ Rectangle {
                     Layout.preferredHeight: 0.8 * content.height
                     fillMode: Image.PreserveAspectFit
                     Layout.alignment: Qt.AlignHCenter
-                    source: "qrc:/Resources/resources/Image/Buddha3D/" + currentBuddha.path;
+                    source: "qrc:/Resources/resources/Image/Buddha3D/" + currentBuddha.path
                     visible: true
                 }
-
-                // Label {
-                //     id: payTimeLabel
-                //     text: "礼佛计时 00:00"
-                //     font.pixelSize: Math.max(16, parent.width * 0.018)
-                //     color: "#666"
-                //     Layout.alignment: Qt.AlignHCenter
-                //     Layout.topMargin: parent.height * 0.02
-                // }
-
-                // Button {
-                //     text: "上传文件"
-                //     font.pixelSize: Math.max(12, parent.width * 0.012)
-                //     Layout.alignment: Qt.AlignHCenter
-                //     Layout.preferredWidth: Math.max(80, parent.width * 0.15)
-                //     Layout.preferredHeight: Math.max(30, parent.height * 0.04)
-                //     onClicked: {
-                //         fileDialog.open();
-                //     }
-                // }
             }
         }
 
@@ -187,84 +169,94 @@ Rectangle {
             ColumnLayout {
                 Layout.fillWidth: true
                 anchors.horizontalCenter: parent.horizontalCenter
-                spacing: 6
+                spacing: 12
 
+                // 音频主面板
                 Rectangle {
-                    Layout.preferredWidth: 0.8 * 0.2 * content.width
-                    Layout.preferredHeight: 0.2 * content.height
-                    Layout.fillHeight: true
+                    id: audioContent
 
-                    Rectangle {
-                        id: audioPlayerController
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 45
+                    Layout.topMargin: 20
+
+                    color: "#ffffff"
+                    border.width: 1
+                    border.color: "#000000"
+                    radius: 8
+
+                    Text {
+                        text: audioPlayer.isPlaying ? ("当前正在播放《" + audioPlayerController.currentMusicName + "》") : "当前暂无正在播放的音乐"
                         anchors.centerIn: parent
-                        width: parent.width
-                        height: 0.2 * parent.height
-                        color: "#ffffff"
-                        border.width: 1
-                        border.color: "#000000"
-                        radius: 8
+                        visible: !audioPlayerHover.hovered
+                        color: "#000000"
+                        font.pixelSize: Math.max(12, parent.width * 0.01)
+                        // wrapMode: Text.WordWrap
+                    }
 
-                        property var currentAudioUrl: userConfig.getCurrentMusicUrl
-                        property var audioList: audioPlayer.getMusicList()
+                    // 音频控制面板，仅在悬停时显示
+                    RowLayout {
+                        id: audioControl
+                        anchors.fill: parent
+                        // anchors.margins: 10
+                        spacing: 10
+                        visible: audioPlayerHover.hovered
+                        // Text {
+                        //     Layout.fillWidth: true
+                        //     Layout.fillHeight: true
+                        //     Layout.alignment: Qt.AlignVCenter
+                        //     text: audioPlayer.isPlaying ? ("当前正在播放《" + audioPlayerController.currentMusicName + "》") : "当前暂无正在播放的音乐"
+                        //     color: "#000000"
+                        //     font.pixelSize: Math.max(12, parent.width * 0.01)
+                        //     wrapMode: Text.WordWrap
+                        // }
 
-                        // 音频控制器
-                        RowLayout {
-                            anchors.fill: parent
-                            anchors.margins: 10
-                            spacing: 10
+                        Button {
+                            id: audioPlayButton
+                            Layout.preferredWidth: 40
+                            Layout.preferredHeight: 40
+                            Layout.alignment: Qt.AlignVCenter
+                            display: AbstractButton.IconOnly
+                            icon.width: 24
+                            icon.height: 24
+                            icon.source: audioPlayer.playing ? "qrc:/Resources/resources/Image/button/stop.png" : "qrc:/Resources/resources/Image/button/start.png"
 
-                            Text {
-                                Layout.fillWidth: true
-                                Layout.fillHeight: true
-                                Layout.alignment: Qt.AlignVCenter
-                                text: audioPlayer.isPlaying ? ("当前正在播放《" + audioPlayerController.currentMusicName + "》") : "当前暂无正在播放的音乐"
-                                color: "#000000"
-                                font.pixelSize: Math.max(12, parent.width * 0.01)
-                                wrapMode: Text.WordWrap
+                            background: Rectangle {
+                                color: parent.hovered ? "#f0f0f0" : "transparent"
+                                radius: 4
                             }
 
-                            Button {
-                                id: audioPlayButton
-                                Layout.preferredWidth: 40
-                                Layout.preferredHeight: 40
-                                Layout.alignment: Qt.AlignVCenter
-                                display: AbstractButton.IconOnly
-                                icon.width: 24
-                                icon.height: 24
-                                icon.source: audioPlayer.playing ? "qrc:/Resources/resources/Image/button/stop.png" : "qrc:/Resources/resources/Image/button/start.png"
-
-                                background: Rectangle {
-                                    color: parent.hovered ? "#f0f0f0" : "transparent"
-                                    radius: 4
-                                }
-
-                                onClicked: {
-                                    audioPlayer.playing ? audioPlayer.pause() : audioPlayer.play(currentMusicUrl);
-                                }
-                            }
-
-                            ComboBox {
-                                id: musicListCombo
-                                Layout.preferredWidth: 40
-                                Layout.preferredHeight: 40
-                                Layout.alignment: Qt.AlignVCenter
-                                // width: 200
-                                model: musicList
-                                textRole: "name"
-                                contentItem: Item {}
-                                onActivated: index => console.log("选中：", model[index])
-                                background: Image {
-                                    width: 24
-                                    height: 24
-                                    source: "qrc:/Resources/resources/Image/button/list.png"
-                                    fillMode: Image.PreserveAspectFit
-                                }
-
-                                indicator: null
+                            onClicked: {
+                                audioPlayer.playing ? audioPlayer.pause() : audioPlayer.play(currentMusicUrl);
                             }
                         }
+
+                        ComboBox {
+                            id: musicListCombo
+                            Layout.preferredWidth: 40
+                            Layout.preferredHeight: 40
+                            Layout.alignment: Qt.AlignVCenter
+                            // width: 200
+                            model: audioList
+                            textRole: "name"
+                            contentItem: Item {}
+                            onActivated: index => console.log("选中：", model[index])
+                            background: Image {
+                                width: 24
+                                height: 24
+                                source: "qrc:/Resources/resources/Image/button/list.png"
+                                fillMode: Image.PreserveAspectFit
+                            }
+
+                            indicator: null
+                        }
+                    }
+
+                    HoverHandler {
+                        id: audioPlayerHover
+                        cursorShape: Qt.PointingHandCursor
                     }
                 }
+                // }
 
                 Rectangle {
                     Layout.preferredWidth: 0.8 * 0.2 * content.width
@@ -302,6 +294,26 @@ Rectangle {
             }
         }
     }
+
+    // Label {
+    //     id: payTimeLabel
+    //     text: "礼佛计时 00:00"
+    //     font.pixelSize: Math.max(16, parent.width * 0.018)
+    //     color: "#666"
+    //     Layout.alignment: Qt.AlignHCenter
+    //     Layout.topMargin: parent.height * 0.02
+    // }
+
+    // Button {
+    //     text: "上传文件"
+    //     font.pixelSize: Math.max(12, parent.width * 0.012)
+    //     Layout.alignment: Qt.AlignHCenter
+    //     Layout.preferredWidth: Math.max(80, parent.width * 0.15)
+    //     Layout.preferredHeight: Math.max(30, parent.height * 0.04)
+    //     onClicked: {
+    //         fileDialog.open();
+    //     }
+    // }
 
     Timer {
         id: payTime
